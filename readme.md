@@ -280,6 +280,10 @@ Click to Execute iDREM.
 iDREM provides an interactive visualization of the predicted model besides the iDREM direct output (please refer to manual for details of iDREM direct ouput).
 ![interactive](images/interactiveViz.png)
 
+Please note that some popup windows might be blocked by the browser. Please pay attention to the top right of the browser.
+If blocked, please allow the pop-up window by clicking it and choosing the right option.   
+
+
 The interactive visualization is composed of the following sections:  
 
 * __Global Config__  
