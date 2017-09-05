@@ -6,7 +6,7 @@
 ██║██████╔╝██║  ██║███████╗██║ ╚═╝ ██║
 ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝                                   
 ```
-Note: For iDREM interactive visualization manual, please skip to [Interactive Visualization](#INTERACTIVE-VISUALIZATION)  section.
+Note: For iDREM interactive visualization manual, please skip to [INTERACTIVE-VISUALIZATION](#interactive-visualization)  section.
 
 # Introduction 
 The Dynamic Regulatory Events Miner (DREM) software 
