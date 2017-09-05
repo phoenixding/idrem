@@ -437,8 +437,8 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	 Type in the protein name (using corresponding gene symbol) to search the corresponding protein level.   
 	 ![proteinLevel](images/proteinLevelPlot.png)
 	 
-* __Cell Types Panel__   
-![cellType](images/cellTypeConfig.png)
+* __Cell Types Panel__    
+![cellType](images/CellTypeConfig.png)
 	* __Explore Single Cell Type__  
 	highlight all nodes, which are significantly overlapping with signature genes associated to a specific cell type (based on single cell data)  
 	example:  
