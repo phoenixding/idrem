@@ -66,8 +66,7 @@ iDREM input interface(required, users need to specify to run iDREM)
 	
 	* __TF-gene Interaction File:__  
 	Users need to provide the customized TF-gene interaction File if choose User Provided TF-gene Interaction source.
-	It must follow the following formatting requirements:    
-	<br /> 
+	It must follow the following formatting requirements:     
 	1st row: header, it should be "TF	Gene	Input" (tab-delimited).  
 	remaining rows: 1st col  is TF, 2nd col is Gene, 3nd col is interaction between TF-Gene (1/0 binary or a score)  
 	example input:  
