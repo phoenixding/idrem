@@ -418,13 +418,12 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	By choosing a specific node, only the targets in that specific node of the given TF will be considered.   
 	
 	* __Explore Methylation Difference__ 
-	List all genes (miRNAs) with methylation significantly different in specified two time points. 
-	
+	List all genes (miRNAs) with methylation significantly different in specified two time points.     
 	Top genes with increased methylation in the promoter  
-	![upMethylation](images/upMethylation.png)
+	![upMethylation](images/upMethylation.png)  
 	
 	Top genes with decreased methylation in the promoter  
-	![downMethylation](images/downMethylation.png)
+	![downMethylation](images/downMethylation.png)  
 	* __View the Methylation Track in UCSC genome browser__  
 	As the above analysis is based on the methylation score in promoter region, this might limit the exploration of methylation score in other regions. 
 	Therefore, we also provided the visualization of methylation scores (can be any epigeomic scores)  using UCSC genome browser.
