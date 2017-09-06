@@ -406,9 +406,8 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 ![MethylationConfig](images/MethylationConfig.png)
 	* __Explore gene methylation__  
 	Plot the average methylation scores in the promoter region (-1k->+500bp) of of given gene.  Type the gene name or use the dropdown menu to select time points
-	and gene names to explore.   
-	
-	example plot:  
+	and gene names to explore.    
+	example plot:    
 	![methylationPlot](images/methylationPlot.png)
 	
 	Please note that the methylation score does not necessarily denotes the DNA methylation score. It depends on the type of the genomic data used as the input for iDREM. 
