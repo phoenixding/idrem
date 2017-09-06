@@ -85,20 +85,15 @@ iDREM input interface(required, users need to specify to run iDREM)
 	Both "normalize data" and "log normalized data" are using the expression at the first time point as the anchor to 
 	study the expression changes through the time. This is recommended. However, if you prefer to use 0 expression as the anchor 
 	to study the expression changes, please choose "No normalization/add 0". Please note this requires that the expression must
-	be in log space. 
-	
+	be in log space.  
 	The expression data must follow the formatting requirments:  
 	header row (1st row): 1st column- Gene , remaining columns- time point IDs.   
-	data rows (2nd -last row): 1st column-Gene Symbol, remaining columns- expression values at each time point.  
-	
-	Example input: 
-	
+	data rows (2nd -last row): 1st column-Gene Symbol, remaining columns- expression values at each time point.    
+	Example input:  
 	![expression data](./images/datafiledrem.png)
-	
-	If users have repeats for expression data, there are two ways to use them:  
+	If users have repeats for expression data, there are two ways to use them:   
 	__First__, users pre-process the repeats. For each gene, take the median expression over all repeats. This requires that all repeats cover 
-	the same time points.  Then use the processed expression as the input expression data.
-	 
+	the same time points.  Then use the processed expression as the input expression data.  
 	__Second__, let iDREM process the repeats data, simply upload the repeats using "Repeat Data" button.  
 	The repeats file should be in the same format as the expression data. By default, the repeat data 
 	should cover the same time points as the original expression data ('The same time period' checkbox).
@@ -111,18 +106,14 @@ iDREM input interface(required, users need to specify to run iDREM)
 	For complete list of provided GO annotation files, please refer to the iDREM manual. 
 	
 	* __Gene Annotation File__  
-	This file contains the Gene Ontology (GO) annotations of genes.  The file can be in one of two formats:
-
+	This file contains the Gene Ontology (GO) annotations of genes.  The file can be in one of two formats:  
 	The file can be in the official 15 column GO Annotation format described at http://www.geneontology.org/GO.annotation.shtml#file.
-	Users can download the annotation file (if not in the provided list) from Gene Ontology Consortium website(http://www.geneontology.org/).
-
-	Alternatively the file can have two columns where the first column contains gene symbols or spot IDs and the second column contains annotations of the genes in the first column. The two columns are delimited by a tab.  Gene symbols and GO annotations can be delimited by either a semicolon (;), comma (','), or a pipe (|).
-
-	Note:
+	Users can download the annotation file (if not in the provided list) from Gene Ontology Consortium website(http://www.geneontology.org/)  
+	Alternatively the file can have two columns where the first column contains gene symbols or spot IDs and the second column contains annotations of the genes in the first column. The two columns are delimited by a tab.  Gene symbols and GO annotations can be delimited by either a semicolon (;), comma (','), or a pipe (|).  
+	Note:  
 	*If a gene is listed as belonging to a certain GO category that is a sub-category of other categories in the GO hierarchy, it is not necessary to also explicitly list its super-categories.
 	*If the same gene appears on multiple lines the union of annotation terms is taken.
-	*The file can either be in plain text or a gzipped version of a plain text file in the required format.
-
+	*The file can either be in plain text or a gzipped version of a plain text file in the required format.  
 	Sample file of two column format:  
 	```
 	ZFX	GO:0003677;GO:0003713;GO:0008270;GO:0030528;GO:0046872;GO:0006355;GO:0005634
@@ -144,10 +135,8 @@ iDREM input interface(required, users need to specify to run iDREM)
 	 file does not appear in the annotation file.
 	 Note that the cross reference file is only used to map between gene symbol.
 	 Any symbols on the same line are considered to be equivalent where symbols are delimited by tabs, 
-	 a pipe(|), a comma (',') or a semicolon (;).  The file can either be in plain text or gzipped version of a text file in this format. 
-	 
-	 Sample cross reference file:
-	 
+	 a pipe(|), a comma (',') or a semicolon (;).  The file can either be in plain text or gzipped version of a text file in this format.   
+	 Sample cross reference file:  
 	 ```
 	 GeneA	SymbolA
 	 GeneB	SymbolB
@@ -178,7 +167,7 @@ The options can be used to provide optional data sets or search setting for mode
 		
 			* __microRNA-gene Interaction File__  
 			Users are also able to use customized miRNA-gene interaction ﬁles. The miRNA-gene interaction must follow the following format requirement. 1st column: miRNA ID 2nd column: gene symbol 3rd column: regulation (It can be binary 1/0 or a ﬂoat binding score in range [0,1]) The columns are tab-delimited.
-			example file:  
+			example file:   
 			```
 			MIRNA GENE INPUT
 			dme-miR-1 CG18769 1 
@@ -196,22 +185,19 @@ The options can be used to provide optional data sets or search setting for mode
 			remaining rows: 1st column represents miRNA ID, the remaining columns represent miRNA expression values.   
 			All columns are tab-delimited.  
 			example file:  
-			![mirnaexpression](images/mirnaexpression.png)
-			
+			![mirnaexpression](images/mirnaexpression.png)  
 			The description of normalization methods and repeats is the same as the gene expression data in the "Data Input". 
 		
 		* __Methylation Option__   
 		![methylation](images/methyoption.png)
-		Note that this option can take different types of epigenomic data (e.g. DNA methylation, histone modification)
+		Note that this option can take different types of epigenomic data (e.g. DNA methylation, histone modification)  
 			
 			* __Methylation data File__  
 			This methylation data represents the Epigenomic data such as DNA methylation, histone methylation, etc.
 			Here the methylation score is used to denote the repression of the region.
-			Therefore, different types of Epigenomic data need to be pre-processed differently. 
-
+			Therefore, different types of Epigenomic data need to be pre-processed differently.   
 			For example, if the epigenomic data is DNA methylation, the normalized methylation score [0-1] can be used directly as the input. If the epigenomic data is histone modification, e.g H3K4me2, which is asssociated with activiation,then the input should be (1-normalized histone modification score). 
-			In short, the methylation data here should represent 'difficulty' score of TF-binding. The larger score, the smaller probablity of TF binding.  
-		   
+			In short, the methylation data here should represent 'difficulty' score of TF-binding. The larger score, the smaller probablity of TF binding.    
 			The methylation input should be in BED6 format.  
 			This file has the following BED6 formatting requirements:   
 			1st column: chrom   
@@ -220,9 +206,8 @@ The options can be used to provide optional data sets or search setting for mode
 			4th column: Name with time point information. It should be in the format of TimePoint_Gene  
 			5th column: Methylation score   
 			6th column: strand   
-			  
-			All columns are tab delimited.  
-			Sample File:    
+			All columns are tab delimited.    
+			Sample File:      
 			```
 			chr7	28372162	28373662	p0.5_Plekhg2	0.21	-
 			chr12	76532560	76534060	p0.5_Plekhg3	0.25	+
@@ -255,16 +240,13 @@ The options can be used to provide optional data sets or search setting for mode
 			
 			![proteinlevel](images/proteinlevel.png)
 			
-			The "Repeat Proteomics Data File" and normalization have the same meaning as the described in "microRNA option" section. 
-			
+			The "Repeat Proteomics Data File" and normalization have the same meaning as the described in "microRNA option" section.   
 			* __Protein-Protein Interaction File (PPI)__  
 			This entry specifies the Protein-protein interaction file.  
 			Such data can be downloaded from PPI databases such as STRING or BioGRID. This file has the following formatting requirements:   
-
-			First ,Second Columns present the interacting protein pairs (Using gene names). The first column tells the interaction strength. If such information is not avaiable, use 1 instead.
-			All columns are tab-delimited.
-			
-			Sample file:  
+			First ,Second Columns present the interacting protein pairs (Using gene names). The first column tells the interaction strength. If such information is not avaiable, use 1 instead.  
+			All columns are tab-delimited.  
+			Sample file:    
 			```
 			Gnai3	Adora3	0.813
 			Gnai3	Grm6	0.902
@@ -275,7 +257,7 @@ The options can be used to provide optional data sets or search setting for mode
 			Gnai3	Hck	0.889
 			```
 * __4. Execute__  
-Click to Execute iDREM. 
+Click to Execute iDREM.  
 			
 # INTERACTIVE VISUALIZATION
 iDREM provides an interactive visualization of the predicted model besides the iDREM direct output (please refer to manual for details of iDREM direct ouput).
