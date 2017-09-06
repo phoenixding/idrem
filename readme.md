@@ -242,9 +242,11 @@ The options can be used to provide optional data sets or search setting for mode
 		Users are able to specify the protein level information using this option, which is helpful for model prediction.
 		There are several major fields in this option dialog. 
 			* __Proteomics checkbox__  
-			*Only Use Proteomics Data for TFs* : If checked, only protein level for TFs will be considered.   
-			*Use Proteomics data for all proteins* : If checked, all protein level will be used.   
-			*Do not Use Proteomics data* : If checked, the proteomics panel will be disabled and no proteomics data will be used.   
+				* __Only Use Proteomics Data for TFs__ : If checked, only protein level for TFs will be considered.   
+				* __Use Proteomics data for all proteins (recommended)__ : If checked, all protein level will be used.
+				The "Activity" measurement of TFs is made not not just by the protein level of the TF, but also 
+				also the protein level of all potential interacting proteins, which is much more robust to the noise of the protein level.     
+				* __Do not Use Proteomics data__: If checked, the proteomics panel will be disabled and no proteomics data will be used.   
 
 			* __Proteomics Data File__  
 			This entry specifies a file that contains the time-series proteomics data. 
@@ -402,7 +404,7 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	![regulatorExpressionPlot](images/regulatorExpressionPlot.png)
 * __Methylation Panel__  
 ![MethylationConfig](images/MethylationConfig.png)
-	* __Explore gene methylation __  
+	* __Explore gene methylation__  
 	Plot the average methylation scores in the promoter region (-1k->+500bp) of of given gene.  Type the gene name or use the dropdown menu to select time points
 	and gene names to explore.   
 	
