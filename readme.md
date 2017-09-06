@@ -145,7 +145,7 @@ iDREM input interface(required, users need to specify to run iDREM)
 * __3. Options__  (Optional, iDREM can run without specifying options)  
 The options can be used to provide optional data sets or search setting for model prediction. 
 	
-	* __ model searching  options __  
+	* __model searching  options__    
 	The model searching options include "Gene Annotations", "GO Analysis",  "DECOD Options", "Expression Scaling Options",
 	"Filtering Options", "Search Options" and "Model Selection Options". 
 	Note users can use the default parameters provided (no need to specify those options). 
