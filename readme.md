@@ -70,8 +70,8 @@ iDREM input interface(required, users need to specify to run iDREM)
 	
 	1st row: header, it should be "TF	Gene	Input" (tab-delimited).  
 	remaining rows: 1st col  is TF, 2nd col is Gene, 3nd col is interaction between TF-Gene (1/0 binary or a score)  
-	
-	example input:  
+	<br>
+	example input:   
 	```
 	TF	Gene	Input
 	CD40	ANPEP	1
