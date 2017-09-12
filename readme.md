@@ -6,7 +6,7 @@
 ██║██████╔╝██║  ██║███████╗██║ ╚═╝ ██║
 ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝                                   
 ```
-Note: For iDREM interactive visualization manual, please skip to [INTERACTIVE-VISUALIZATION](#interactive-visualization)  section.
+Note: For iDREM interactive visualization manual, please skip to [INTERACTIVE-VISUALIZATION](#interactive-visualization) section.
 
 # Introduction 
 The Dynamic Regulatory Events Miner (DREM) software 
@@ -357,8 +357,7 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	The interactive visualization of the model is organized by the split order to avoid overlapping paths. Therefore, the geometric position of the node is
 	not representing the actual expression level. We provided the "Show Path Expression" function to show all the paths based on their expression levels.
 	(x-value : time point, y-value: expression level).
-	
-	Path expression:  
+	Path expression:   
 	![pathExpression](images/pathExpression.png)
 	* __Explore Gene__   
 	Type in Gene Name to show the assigned nodes/paths (Marked in Red). 
@@ -367,10 +366,10 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	There are 3 different plots for expression (for all expression in the iDREM visualization): LineChart (shown above), ColumnChart and BarChart.   
 	ColumnChart:      
 	![expressionBarPlot](images/expressionColumnPlot.png)
-	 
 	BarChart:   
 	![expressionBarPlot](images/expressionBarPlot.png)  
-	To undo the search: delete the text and then press enter; or hit the RESET button.  
+	To undo the search: delete the text and then press enter; or hit the RESET button. 
+	 
 	* __Explore miRNA__   
 	Type in miRNA name to show the expression of miRNAs.    
 	![mirnaplot](images/mirnaPlot.png)   
@@ -446,6 +445,28 @@ Key in the Gene(Regulator) name to search all related  expression and methylatio
 
 
 # EXAMPLES
+All inputs files mentioned in this section can be found under the "example" directory.   
+
+* __Data Input and Gene Annotation Input__  
+Please specify the example expression inputs as the following figure:  
+![example_dataInput](images/example_dataInput.png)
+
+* __Options__ 
+	* __microRNA Option__
+	Please specify the example miRNA option inputs as the following figure:
+	![example_mirna](images/example_mirna.png)
+	
+	* __Methylation (Epigenomic) Option__  
+	Please specify the example Methylation option inputs as the following figure:
+	![example_methylation](images/example_methylation.png)
+	
+	* __Proteomics Option__
+	Please specify the example proteomics option inputs as the following figure:  
+	![example_proteomics](images/example_proteomics.png)
+
+* __Interactive iDREM visualizations__   
+	iDREM interactive visualization output:  
+	![example_idrem](images/example_idrem_out.png)
 
 # CREDITS
 The DREM was developed by Jason Ernst at 2007 and Later 
