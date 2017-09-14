@@ -124,11 +124,11 @@
 	}
 
 	.menu-item ul {
-		height: 93px;
-	  
+		height: 93px; 
 	}
+	
 	#globalconfig.menu-item ul{
-		height:343px;
+		height:363px;
 	}
 	
 	#tfconfig.menu-item ul{
@@ -152,6 +152,11 @@
 		height:153px;
 		
 	}
+	
+	#pathfunction.menu-item ul{
+		height:143px;
+	}
+	
 	#downloadconfig.menu-item ul{
 		
 	}

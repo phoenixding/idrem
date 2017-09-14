@@ -29,7 +29,7 @@ modeling brain development regulatory networks. The following figures presents t
 To use iDREM, a version of Java 1.7 or later must be installed.  If Java 1.7 or later is not
 currently installed, please refer to [http://www.java.com](http://www.java.com) for installation instructions. 
 
-* JavaScript
+* JavaScript  
 To enable the interactive visualization powered by Javascript, please make sure that you have Internet connection. 
 
 # INSTALLATION
@@ -46,17 +46,7 @@ To execute iDREM from a command line, change to the iDREM directory and then typ
 ```shell
 java -Xmx4g -jar idrem.jar
 ```
-
-iDREM can be run in batch mode to learn models without going through the graphical interface. 
-Batch mode is useful for learning multiple iDREM model in parallel or interacting iDREM with external scripts.
-In batch mode, the DREM settings are read from the file "settingsfile.txt", which has the same format as the "default_config" file, and
-the model file "outmodelfile.txt" is automatically saved after the learning precedure terminates. The saved model file can then be
-loaded into iDREM for later viewing. To run iDREM in batch model, use the command:
-
-```shell
-java -Xmx4G -jar idrem.jar -b settingsfile.txt outmodelfile.xt
-
-```
+The output results will be given under the same directory of the input "Expression Data File".   
 
 iDREM input interface(required, users need to specify to run iDREM)  
 ![iDREMain](./images/inputdrem.png)
@@ -256,6 +246,20 @@ The options can be used to provide optional data sets or search setting for mode
 			Gnai3	Rgs19	0.987
 			Gnai3	Hck	0.889
 			```
+	
+	iDREM can be run in batch mode to learn models without going through the graphical interface. 
+	Batch mode is useful for learning multiple iDREM model in parallel or interacting iDREM with external scripts.
+	In batch mode, the DREM settings are read from the file "settingsfile.txt", which has the same format as the "default_config" file, and
+	the model file "outmodelfile.txt" is automatically saved after the learning precedure terminates. The saved model file can then be
+	loaded into iDREM for later viewing. To run iDREM in batch model, use the command:
+
+	```shell
+	java -Xmx4g -jar idrem.jar -b settingsfile.txt outmodelfile.xt
+
+	```
+	All the files and parameters described above are specified by the settingsfile.txt in batch mode. Please 
+	refer to the [example_settings.txt](./example_settings.txt) provided for the required format of the iDREM setting file. 
+			
 * __4. Execute__  
 Click to Execute iDREM.  
 			
@@ -447,26 +451,45 @@ Key in the Gene(Regulator) name to search all related  expression and methylatio
 # EXAMPLES
 All inputs files mentioned in this section can be found under the "example" directory.   
 
-* __Data Input and Gene Annotation Input__  
-Please specify the example expression inputs as the following figure:  
-![example_dataInput](images/example_dataInput.png)
-
-* __Options__ 
-	* __microRNA Option__
-	Please specify the example miRNA option inputs as the following figure:
-	![example_mirna](images/example_mirna.png)
+* __run iDREM__  
 	
-	* __Methylation (Epigenomic) Option__  
-	Please specify the example Methylation option inputs as the following figure:
-	![example_methylation](images/example_methylation.png)
-	
-	* __Proteomics Option__
-	Please specify the example proteomics option inputs as the following figure:  
-	![example_proteomics](images/example_proteomics.png)
+	Start the iDREM program by the command:  
+	```
+	java -Xmx4g -jar idrem.jar
+	```
+	Then specify the inputs in the graphical interface as shown below.  
+	* __Data Input and Gene Annotation Input__  
+	Please specify the example expression inputs as the following figure:  
+	![example_dataInput](images/example_dataInput.png)
 
-* __Interactive iDREM visualizations__   
-	iDREM interactive visualization output:  
-	![example_idrem](images/example_idrem_out.png)
+	* __Options__ 
+		* __microRNA Option__
+		Please specify the example miRNA option inputs as the following figure:
+		![example_mirna](images/example_mirna.png)
+		
+		* __Methylation (Epigenomic) Option__  
+		Please specify the example Methylation option inputs as the following figure:
+		![example_methylation](images/example_methylation.png)
+		
+		* __Proteomics Option__
+		Please specify the example proteomics option inputs as the following figure:  
+		![example_proteomics](images/example_proteomics.png)
+
+	* __Interactive iDREM visualizations__   
+		iDREM interactive visualization output:  
+		![example_idrem](images/example_idrem_out.png)
+		
+		The iDREM visualization results will be given in the same directory as the input "Expression Data File". 
+		
+* __iDREM batch mode__   
+	run iDREM in batch mode:  
+	```
+	java -Xmx4g -jar idrem.jar -b example_settings.txt outmodelfile.xt
+	```
+	example_settings.txt specifies all the files and parameters required by iDREM.   
+	outmodelfile.txt is the saved model, which can be used to restore the running results later.  
+	Please refer to the manual for more details. 
+	
 
 # CREDITS
 The DREM was developed by Jason Ernst at 2007 and Later 
