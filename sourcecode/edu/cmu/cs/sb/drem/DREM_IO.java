@@ -129,7 +129,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 	static int nSamplesMultipleDEF = 500;
 	static int nMinGoGenesDEF = 5;
 	static int nMinGOLevelDEF = 3;
-	static boolean brandomgoDEF = true;
+	static boolean brandomgoDEF = false;
 	static boolean bmaxminDEF = false;// true;
 	static double dpercentDEF = 0;
 
@@ -196,7 +196,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 	String szmingolevelval;
 	boolean bstaticcheckval;
 	int ninitsearchval = 1;
-	boolean brandomgoval = true;
+	boolean brandomgoval = false;
 	boolean btakelog = false;
 	boolean bstaticsearchval;
 	int ndb;
@@ -3096,7 +3096,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 					+ "The Original Dynamic Regulatory Events Miner (DREM) was developed by Jason Ernst "
 					+ "in collaboration with Ziv Bar-Joseph and extended by William E. Devanny, Anthony Gitter, Marcel H. Schulz.\n\n"
                                         + "This iDREM (implemented by Jun Ding) extends DREM with an interfactive visualization "
-                                        + "and also enables the integration of many additional information, such as methylation and proteomics. \n"
+                                        + "and also enables the integration of many additional information, such as epigenomics and proteomics. \n"
 					+ "Any questions or bugs found should "
 					+ "be emailed to {zivbj/jund}@cs.cmu.edu.";
 
@@ -3485,22 +3485,23 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 					+ "become active when this model selection criteria is used.";
 			Util.renderDialog(theOptions, szMessage, 50, 100);
                 } else if (esource==MethyHButton){
-                        szMessage="Methylation data:\n"
-                                + "This methylation data represents the Epigenomic data such as DNA methylation, histone methylation, etc. \n"
-                                + "Here the methylation score is used to denote the repression of the region.\n"
-                                + "Therefore, different types of Epigenomic data need to be pre-processed differently. \n\n"
+                        szMessage="epigenomic data:\n"
+                                + "This epigenomic data includes the data like DNA methylation, histone methylation, etc. \n"
+                                + "Here the epigenomic score is used to denote the repression of the region.\n"
+                                + "Therefore, different types of epigenomic data need to be pre-processed differently. \n\n"
                                 + "For example, if the epigenomic data is DNA methylation, the normalized methylation score [0-1] can be used directly as the input. "
                                 + "If the epigenomic data is histone modification, e.g H3K4me2, which is asssociated with activiation,"
                                 + "then the input should be 1-normalized_histone_modification_score. \n"
-                                + "In short, the methylation data here should represent 'difficulty' score of TF-binding. The larger score, the smaller "
+                                + "In short, the epigenomic data here should represent 'difficulty' score of TF-binding. The larger score, the smaller "
                                 + "probablity of TF binding\n\n"
-                                + "The methylation input should be in BED6 format.\n"
+                                + "If having replicates for each time point, the mean epigenomic score will be used.\n"
+                                + "The epigenomic data input should be in BED6 format.\n"
                                 + "This file has the following BED6 formatting requirements: \n"
                                 + "1st column: chrom \n"
                                 + "2nd column: ChromStart \n"
                                 + "3rd column: ChromEnd \n"
                                 + "4th column: Name with time point information. It should be in the format of TimePoint_Gene \n"
-                                + "5th column: Methylation score \n"
+                                + "5th column: epigenetic score (in [0,1]) \n"
                                 + "6th column: strand \n"
                                 + "\n\n"
                                 +"SAMPLE File:\n"
@@ -4335,7 +4336,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
                 //
                 JComponent panelMethy=makeMethyPanel();
                 panelMethy.setBackground(lightBlue);
-                tabbedPane.addTab("Methylation Option",null,panelMethy,"Options pertaining to Methylation data");
+                tabbedPane.addTab("Epigenomics Option",null,panelMethy,"Options pertaining to Epigenomic data");
                 
                 //
                 JComponent panelProteomics = makeProteomicsPanel();
@@ -4450,7 +4451,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
             MethyGTFHButton.addActionListener(this);
            
             
-            MethyLabel=new JLabel("Methylation data File:");
+            MethyLabel=new JLabel("Epigenomic data File:");
             MethyField= new JTextField(djMethyFile, JLabel.TRAILING);
             //File Opener for Methylation data
             JPanel mFileOpener = new JPanel(new SpringLayout());

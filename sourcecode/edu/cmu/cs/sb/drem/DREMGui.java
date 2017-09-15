@@ -587,14 +587,15 @@ public class DREMGui extends PFrame implements ComponentListener {
 			}
 		}
             tgr = theTimeiohmm.theDataSet.tga.getCategory(theTimeiohmm.theDataSet.genenames, dweightA);
-            String goID,goCat,goPvalue;
+            String goID,goCat,goPvalue,goPvalueCorrected;
             String[] GoItem;
             ArrayList<String[]> nodeGO=new ArrayList<String[]>();
             for (int i=0;i<tgr.goRecArray.length;i++){
                 goID=tgr.goRecArray[i].szgoid;
                 goCat=tgr.goRecArray[i].szgocategory;
                 goPvalue=Double.toString(tgr.goRecArray[i].dpvalue);
-                GoItem=new String[]{goID,goCat,goPvalue};
+                goPvalueCorrected=Double.toString(tgr.goRecArray[i].dcorrectedpvalue);
+                GoItem=new String[]{goID,goCat,"p-value: "+goPvalue,"corrected p-value:" +goPvalueCorrected};
                 nodeGO.add(GoItem);
             }
             

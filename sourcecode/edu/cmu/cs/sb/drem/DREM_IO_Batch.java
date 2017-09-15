@@ -892,10 +892,10 @@ public class DREM_IO_Batch {
                                                 } else if (sztype.equalsIgnoreCase("PPI File")){
                                                         djPPIFile=szvalue;
                                              
-                                                } else if (sztype.equalsIgnoreCase("Methylation_File")){
-                                                        // parseDefault for methylation panel
+                                                } else if (sztype.equalsIgnoreCase("Epigenomic_File")){
+                                                        // parseDefault for epigenomics panel
                                                         djMethyFile=szvalue;
-                                                } else if (sztype.equalsIgnoreCase("MethylationGTF")){
+                                                } else if (sztype.equalsIgnoreCase("GTF File")){
                                                         djMethyGTF=szvalue;
 						} else if ((sztype.charAt(0) != '#')) {
 							szError += "WARNING: '" + sztype
