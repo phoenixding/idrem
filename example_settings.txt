@@ -31,9 +31,9 @@ Repeat_Prote_Data_is_from[Different time periods,The same time period]	The same 
 Use Proteomics[No,TF,All]	All
 PPI File	example/inputs/example_PPIs.txt
 
-#Methylation Data:
-Methylation_File	example/inputs/example_methylation_data_file.bed
-MethylationGTF	example/inputs/example_PPIs.txt
+#Epigenomics Data:
+Epigenomic_File	example/inputs/example_epigenomics_data_file.bed
+GTF File	example/inputs/example_GTF.txt
 
 
 #Filtering:

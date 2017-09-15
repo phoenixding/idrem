@@ -143,7 +143,7 @@ The options can be used to provide optional data sets or search setting for mode
 	the model searching parameters.  
 		
 	* __datasets options__  
-	There are 3 additional datasets options including "microRNA Option", "Methylation Option" and "Proteomics Option". 
+	There are 3 additional datasets options including "microRNA Option", "Epigenomics Option" and "Proteomics Option". 
 	This optional datasets can provide additional regulatory information, which is helpful for iDREM model prediction. 
 		
 		* __microRNA Option__
@@ -178,23 +178,23 @@ The options can be used to provide optional data sets or search setting for mode
 			![mirnaexpression](images/mirnaexpression.png)  
 			The description of normalization methods and repeats is the same as the gene expression data in the "Data Input". 
 		
-		* __Methylation Option__   
+		* __Epigenomics Option__   
 		![methylation](images/methyoption.png)
 		Note that this option can take different types of epigenomic data (e.g. DNA methylation, histone modification)  
 			
-			* __Methylation data File__  
-			This methylation data represents the Epigenomic data such as DNA methylation, histone methylation, etc.
-			Here the methylation score is used to denote the repression of the region.
+			* __Epigenomic data File__  
+			This File specifies the Epigenomic data such as DNA methylation, histone methylation, etc.
+			Here the epigenomic score is used to denote the repression of the region.
 			Therefore, different types of Epigenomic data need to be pre-processed differently.   
 			For example, if the epigenomic data is DNA methylation, the normalized methylation score [0-1] can be used directly as the input. If the epigenomic data is histone modification, e.g H3K4me2, which is asssociated with activiation,then the input should be (1-normalized histone modification score). 
-			In short, the methylation data here should represent 'difficulty' score of TF-binding. The larger score, the smaller probablity of TF binding.    
-			The methylation input should be in BED6 format.  
+			In short, the epigenomic data here should represent 'difficulty' score of TF-binding. The larger score, the smaller probablity of TF binding.    
+			The epigenomic input should be in BED6 format.  
 			This file has the following BED6 formatting requirements:   
 			1st column: chrom   
 			2nd column: ChromStart   
 			3rd column: ChromEnd   
 			4th column: Name with time point information. It should be in the format of TimePoint_Gene  
-			5th column: Methylation score   
+			5th column: Epigenomic score   
 			6th column: strand   
 			All columns are tab delimited.    
 			Sample File:      
@@ -386,7 +386,7 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	* __Explore Regulator targets expression__  
 	This function is provided to explore the expression of targets of given regulator. Type in the regulator name to search.     
 	![regulatorExpressionPlot](images/regulatorExpressionPlot.png)
-* __Methylation Panel__  
+* __Epigenomic Panel__  
 ![MethylationConfig](images/MethylationConfig.png)
 	* __Explore gene methylation__  
 	Plot the average methylation scores in the promoter region (-1k->+500bp) of of given gene.  Type the gene name or use the dropdown menu to select time points
@@ -429,6 +429,24 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	* __Explore Sorted Cell Type__    
 	Explore Sorted Cell Type: highlight all nodes, which are significantly overlapping with signature genes associated to a specific cell type (based on sorted cell data)
 
+	* __ "Cell Types" data Format (a modified json format)__  
+		* 	Please note that the "Cell Types" data is not used when predicting the iDREM model and thus it will not be used as the input for iDREM.  But it's needed if users want to analyze the correlation between cell types to the predicted nodes and paths in the model. 
+		* The data should be named as "cells.json"
+		* The data should be in the format of:  
+		data_cells=[SingleCellList, SortedCellList] 
+	    If don't have the corresponding data, mark it as a empty list [].    
+	    For each cell type data (e.g. SingleCellList), iDREM has the following formatting requirements.   
+	SingleCellList=[["TimePoint 1", "CellLabel1", signature gene list delimited by ","], ["TimePoint n", "CellLabeln", signature gene list delimited by ","]]. 
+	The following is an example file:    
+	```
+	data_cells=[
+	[['Adult','brain_adult',"Nefh,Nek2,Ggh,Gfm1,Git1,Gja1,Gk5"],	  									
+	['E10.5','brain_E10.5',"Gfm1,Git1,Gja1,Gk5"]
+	], 
+	[]
+	]
+	```
+
 * __Path Function Panel__  
 ![pathFunctionConfig](images/pathFunctionConfig.png)  
 	* __Show path function Sankey Diagram__  
@@ -467,11 +485,11 @@ All inputs files mentioned in this section can be found under the "example" dire
 		Please specify the example miRNA option inputs as the following figure:
 		![example_mirna](images/example_mirna.png)
 		
-		* __Methylation (Epigenomic) Option__  
-		Please specify the example Methylation option inputs as the following figure:
-		![example_methylation](images/example_methylation.png)
+		* __Epigenomics Option__  
+		Please specify the example Epigenomics option inputs as the following figure:
+		![example_epigenomics](images/example_epigenomics.png)
 		
-		* __Proteomics Option__
+		* __Proteomics Option__  
 		Please specify the example proteomics option inputs as the following figure:  
 		![example_proteomics](images/example_proteomics.png)
 
