@@ -468,9 +468,10 @@ public class DREMGui extends PFrame implements ComponentListener {
             DREM_Timeiohmm.Treenode[] nptrList;
             
             // get node List
-            ArrayList<DREM_Timeiohmm.Treenode> TNs=new ArrayList<>();         
+            ArrayList<DREM_Timeiohmm.Treenode> TNs=new ArrayList<>();  
+            ArrayList<DREM_Timeiohmm.Treenode> TNNs=new ArrayList<>();
             String[][] tabdata;
-            TNs=treeWalkBF(ptr); 
+            TNNs=treeWalkBF(ptr); 
             ArrayList<JsonNode> JsonNodeList=new ArrayList<>();
             
             int nparent;
@@ -484,12 +485,17 @@ public class DREMGui extends PFrame implements ComponentListener {
             ArrayList<String[]> nodeGO;
             
             int ct=0;
-           
+            for (DREM_Timeiohmm.Treenode node: TNNs){
+                if(node.bInNode!=null&&TNs.contains(node)==false){
+                    TNs.add(node);
+                }
+            }
+            
             for (DREM_Timeiohmm.Treenode node: TNs){
                 nparent=TNs.indexOf(node.parent);
                 ArrayList<Integer> nchildren=new ArrayList<>();
                 for (DREM_Timeiohmm.Treenode child:node.nextptr){
-                        nchildren.add(TNs.indexOf(child));
+                    nchildren.add(TNs.indexOf(child));      
                 }
                 Collections.sort(nchildren);
                 
@@ -497,13 +503,13 @@ public class DREMGui extends PFrame implements ComponentListener {
                     nID=TNs.indexOf(node);
                     nTime=TimePoints[node.ndepth];
                     nMean=node.dmean;
-                    nSigma=node.dsigma;
+                    nSigma=node.dsigma; 
                     inNode=node.bInNode;
                     nodeGO=getTgr(theTimeiohmm,inNode);
                     int childIndex=Arrays.asList(node.parent.nextptr).indexOf(node);
                     tabdata=getEdgeData(theTimeiohmm,node.parent,childIndex);
                     JsonNode JN= new JsonNode(nparent,nchildren,nID,nTime,nMean,nSigma,inNode,tabdata,nodeGO);
-                    JsonNodeList.add(JN);
+                    JsonNodeList.add(JN);          
                 }else{
                     JsonNode JN=new JsonNode();
                     JN.nodeID=0;
