@@ -126,6 +126,10 @@ public class DREM_Timeiohmm {
 	JLabel statusLabel3;
 	int numtotalPath = 1;
 	double dbesttrainlike;
+        //proteomics and epigenetics weights
+        String proteweight="1";
+        
+        
 
 	/**
 	 * Number of boolean items for the static vector. Equal to the number of TFs
@@ -219,7 +223,7 @@ public class DREM_Timeiohmm {
                         String fastaDataFile,
 			String decodPath, String regPriors, double dProbBindingFunctional,
 			double expressionScalingFactor, double minTFExpAfterScaling,
-			boolean filterMIRNAExp)
+			boolean filterMIRNAExp, String pweight )
 			throws Exception {
 		this.szstaticsourceval = szstaticsourceval;
 		this.szbinding = szbinding;
@@ -253,6 +257,8 @@ public class DREM_Timeiohmm {
 		this.fastaDataFile = fastaDataFile;
 		this.regPriorsFile = regPriors;
                 this.methyGeneScore=methyGeneScoreMap;
+                this.proteweight=pweight;
+               
 
 		BREGDREM = (!bstaticsearchval);
                
@@ -408,7 +414,7 @@ public class DREM_Timeiohmm {
                                                         proteDataSet,djProteFile,djPPIFile,bProteAll,
                                                         scaleMIRNAExp, scaleTFExp,
 							expressionScalingFactor, minTFExpAfterScaling,
-                                                        methyGeneScore);
+                                                        methyGeneScore,proteweight);
 			buildFilteredClassifier();
 
 			dMaxTFActivityScore = new double[numbits];

@@ -217,6 +217,8 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 	String szdelaypathvaldiff;
 	String szmergepathvaldiff;
 	String szseedval;
+        String proteweightval="1.0";
+        String epiweightval="1.0";
 	boolean bmaxminval;
 
 	int ntodownload;
@@ -262,6 +264,8 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 	JLabel numchildLabel;
 	JLabel seedLabel;
 	JLabel nodepenaltyLabel;
+        JLabel pproteweightLabel; //proteomics weight label
+        //JLabel pepigeneticWeightLabel; //epigenetics weight label
 	JLabel initFileLabel;
 	JLabel savedModelOptionsLabel;
 	JLabel filterchoiceLabel;
@@ -547,6 +551,8 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 	JButton filterchoiceHButton = new JButton(Util
 			.createImageIcon("Help16.gif"));
 	JButton nodepenaltyHButton = new JButton(Util.createImageIcon("Help16.gif"));
+        JButton proteweightHButton = new JButton(Util.createImageIcon("Help16.gif")); // proteomics weight help button
+        JButton epigeneticweightHButton = new JButton(Util.createImageIcon("Help16.gif")); // epigenetic weight help button
 	JButton modelframeworkHButton = new JButton(Util
 			.createImageIcon("Help16.gif"));
 	JButton convergencePanelHButton = new JButton(Util
@@ -574,6 +580,8 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 	JSpinner thespinnerminstddev;
 
 	JSpinner thespinnernodepenalty;
+        JSpinner theproteWeight; //Proteomics weight
+        //JSpinner theepigeneticWeight; //epigenetics weight
 	JSpinner thespinnerepsilondiff;
 	JSpinner thespinnerprunepathdiff;
 	JSpinner thespinnerdelaypathdiff;
@@ -2412,7 +2420,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
                                         methyGeneScoreMap,// methylation scores for gene promoters
                                         fastaFile, decodPath,
 					regScoreFile, dProbBindingFunctional, miRNAWeight, tfWeight,
-					filtermiRNAExp);
+					filtermiRNAExp,proteweightval);
 
 			((DREM_GoAnnotations) thetimehmm.theDataSet.tga).buildRecDREM(
 					thetimehmm.treeptr, thetimehmm.theDataSet.genenames);
@@ -2940,7 +2948,12 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 			sznodepenaltyval = thespinnernodepenalty.getValue().toString();
 			szconvergenceval = thespinnerconvergence.getValue().toString();
 			szminstddeval = thespinnerminstddev.getValue().toString();
-
+                        
+                        //relative proteomics weight values
+                        
+                        proteweightval=theproteWeight.getValue().toString();
+                        //epiweightval=theproteWeight.getValue().toString();
+                        
 			szepsilonvaldiff = thespinnerepsilondiff.getValue().toString();
 			szprunepathvaldiff = thespinnerprunepathdiff.getValue().toString();
 			szdelaypathvaldiff = thespinnerdelaypathdiff.getValue().toString();
@@ -3157,6 +3170,8 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
                                 || (ProteHCButton== esource) // ProteHCButton Response 
                                 || (ProteHRButton == esource ) //ProteHRButton Response
                                 || (ProteHPPIButton==esource)  //ProteHPPIButton response
+                                || (proteweightHButton==esource) //proteweightHButton response
+                                || (epigeneticweightHButton==esource) //epigeneticweightHButton response
                                 || (MethyHButton==esource)
                                 || (MethyGTFHButton==esource)
                                     ) {  
@@ -3530,6 +3545,16 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
                                 +"Name\te16.5\tp0.5\tp1\tp1.5\tp2.5\n"
                                 +"Pabpn\t1.26\t0.42\t0.0\t0.0\t0.47";
                         Util.renderDialog(theOptions, szMessage,50,100);
+                } else if (esource==proteweightHButton){
+                    //proteomics data weight H button
+                    szMessage="This entry specifies the relative weight of the proteomics data to epigenomics data on inferring dynamic (time-depedent) TF-gene interaction map. \n "
+                            +"The proteomics and epigenetics data contribute to the model indirectly (via the impact on dynamic TF-gene map). \n"
+                            +"This relative weights species the realtive importance of each data type\n"
+                            +"By default, the protoemics data and epigenomics data are treated with equal importance (weight =1).\n "
+                            +"Users can adjust the weights if they have the prior knowledge that one data is more influencial than the other.\n"
+                            +"For example, set relative weight <1 to emphasize more on epigenetics data and set relative weight >1 to emphasize more \n"
+                            + "on the proteomics data.";
+                    Util.renderDialog(theOptions, szMessage,50,100);
                 } else if (esource==ProteHCButton){
                         //ProteHCButton Action
                         szMessage = "Choose how to use the proteomics data in the following 3 ways: \n"
@@ -4812,15 +4837,15 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 		}
 
 		traintestButton.addChangeListener(this);
-
+                
+                //
 		SpinnerNumberModel snnodepenalty = new SpinnerNumberModel(new Double(
 				dNODEPENALTYDEF), new Double(0), null, new Double(5));
 		thespinnernodepenalty = new JSpinner(snnodepenalty);
-
 		thespinnernodepenalty.setPreferredSize(new Dimension(50, 20));
 		thespinnernodepenalty.setMinimumSize(new Dimension(50, 20));
 		thespinnernodepenalty.setMaximumSize(new Dimension(50, 20));
-
+               
 		JPanel pnodepenaltypanel = new JPanel(new SpringLayout());
 		nodepenaltyLabel = new JLabel(sznodepenalty, JLabel.TRAILING);
 		pnodepenaltypanel.setBackground(lightBlue);
@@ -4829,11 +4854,50 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
 		nodepenaltyHButton.addActionListener(this);
 		pnodepenaltypanel.add(nodepenaltyHButton);
 		p.add(pnodepenaltypanel);
-
+                
 		SpringUtilities.makeCompactGrid(pnodepenaltypanel, 1, 3, 5, 5, 5, 5);
-		JPanel pspinnerseedpanel = new JPanel(new SpringLayout());
-		seedLabel = new JLabel(szseed, JLabel.TRAILING);
+		
+                
+                
+                //TODO: Add proteomics weight panel
+                SpinnerNumberModel proteWeight = new SpinnerNumberModel(new Double(1),new Double(0),null,0.1);
+                theproteWeight = new JSpinner(proteWeight);
+                theproteWeight.setPreferredSize(new Dimension(50, 20));
+		theproteWeight.setMinimumSize(new Dimension(50, 20));
+		theproteWeight.setMaximumSize(new Dimension(50, 20));
 
+                JPanel proteweightpanel = new JPanel(new SpringLayout());
+                pproteweightLabel=new JLabel("Relative weight of proteomics data against to epigenomics data", JLabel.TRAILING);
+                proteweightpanel.setBackground(lightBlue);
+                proteweightpanel.add(pproteweightLabel);
+                proteweightpanel.add(theproteWeight); // proteomics data weight spinner
+                proteweightHButton.addActionListener(this);
+                proteweightpanel.add(proteweightHButton);
+                SpringUtilities.makeCompactGrid(proteweightpanel,1,3,5,5,5,5);
+                p.add(proteweightpanel);
+                
+               // TODO: ADD epigenetics weight panel
+               /*
+                SpinnerNumberModel epigeneticWeight = new SpinnerNumberModel(new Double(1),new Double(0),null,0.1);
+                theepigeneticWeight = new JSpinner(epigeneticWeight);
+                theepigeneticWeight.setPreferredSize(new Dimension(50, 20));
+		theepigeneticWeight.setMinimumSize(new Dimension(50, 20));
+		theepigeneticWeight.setMaximumSize(new Dimension(50, 20));
+
+                JPanel epigeneticweightpanel = new JPanel(new SpringLayout());
+                pepigeneticWeightLabel=new JLabel("Epigenomics data weight", JLabel.TRAILING);
+                epigeneticweightpanel.setBackground(lightBlue);
+                epigeneticweightpanel.add(pepigeneticWeightLabel);
+                epigeneticweightpanel.add(theepigeneticWeight); // proteomics data weight spinner
+                epigeneticweightHButton.addActionListener(this);
+                epigeneticweightpanel.add(epigeneticweightHButton);
+                SpringUtilities.makeCompactGrid(epigeneticweightpanel,1,3,5,5,5,5);
+                p.add(epigeneticweightpanel);
+                */
+                
+                //
+                JPanel pspinnerseedpanel = new JPanel(new SpringLayout());
+		seedLabel = new JLabel(szseed, JLabel.TRAILING);
 		pspinnerseedpanel.add(seedLabel);
 		pspinnerseedpanel.add(thespinnerseed);
 		pspinnerseedpanel.add(seedHButton);

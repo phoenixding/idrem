@@ -131,7 +131,7 @@ public class DREM_IO_Batch {
         String djMethyFile="";
         String djMethyGTF="";
         
-        
+        String pweight="1";
         
 	long s1;
 
@@ -835,6 +835,9 @@ public class DREM_IO_Batch {
                                                  // parseDefault for proteomics panel 
                                                 } else if (sztype.equalsIgnoreCase("Proteomics_File")){
                                                         djProteFile=szvalue;
+                                                // parseDefault for relative proteomics weight
+                                                } else if (sztype.equalsIgnoreCase("Proteomics_Relative_Weight")){
+                                                        pweight=szvalue;
                                                 } else if ((sztype
 								.equalsIgnoreCase("Repeat_Prote_Data_Files(comma delimited list)"))
 								|| (sztype
@@ -1367,7 +1370,7 @@ public class DREM_IO_Batch {
                                         theProteDataSet,djProteFile,djPPIFile,bProteAll, //proteomics
                                         methyGeneScoreMap,//methy promoter
                                         fastaFile, decodPath, regScoreFile, dProbBindingFunctional, miRNAWeight, tfWeight,
-					filtermiRNAExp);
+					filtermiRNAExp,pweight);
 
 			((DREM_GoAnnotations) thetimehmm.theDataSet.tga).buildRecDREM(
 					thetimehmm.treeptr, thetimehmm.theDataSet.genenames);

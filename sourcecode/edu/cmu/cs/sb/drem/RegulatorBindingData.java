@@ -1369,11 +1369,15 @@ public class RegulatorBindingData {
                         DataSetCore proteDataSet,String djProteFile,String djPPIFile,Boolean bProteAll,
 			boolean scaleMIRNAExp, boolean scaleTFExp,
 			double miRNAScalingFactor, double minTFExp,
-                        HashMap<String,HashMap<String,Double>> methyGeneScoreMap) {
+                        HashMap<String,HashMap<String,Double>> methyGeneScoreMap,String pweight) {
                 
                     // Update adjustBinding
                     double[][]regTR; //first dimension: time, second dimension: Regulator 
                     double [][]proteTR; //regulator matrix from proteomics data
+                    
+                    //proteomics relative proteimics data weight
+                    double pweightd=Double.parseDouble(pweight);
+                   
                     
                     //update MethyG2R; Integrate methylation
                     if (methyGeneScoreMap!=null){
@@ -1385,7 +1389,7 @@ public class RegulatorBindingData {
                     // Integrate proteomics data
                     proteTR=prote2Bind(theDataSet,szExFile,miRNADataSet,proteDataSet,djProteFile,djPPIFile,reg2DataSetIndex,bProteAll); //integrates proteomics dataset
                     
-                    regTR=mergeTR(regTR,proteTR); //integrates proteomics dataset
+                    regTR=mergeTR(regTR,proteTR,pweightd); //integrates proteomics dataset
                     // Convert the regTR (regulator matrix) to gene2RegBinding matrix used by the program 
                     if (reg2DataSetIndex.size()>0){
                         for (int time=0;time<(theDataSet.numcols)-1;time++){
@@ -1699,11 +1703,12 @@ public class RegulatorBindingData {
         }
         
         //merge protTR and regTR
-        public double[][] mergeTR(double[][] regTR,double[][]proteTR){
+        public double[][] mergeTR(double[][] regTR,double[][]proteTR,double pweight){
              for (int time=0;time<regTR.length;time++){
                 for (int reg=0;reg<regTR[time].length;reg++){
                     if (proteTR[time][reg]!=Double.NEGATIVE_INFINITY){
-                        regTR[time][reg]=proteTR[time][reg];
+                        //regTR[time][reg]=proteTR[time][reg];
+                        regTR[time][reg]=Math.pow(proteTR[time][reg],1.0/pweight);
                     }
                 }
              }
