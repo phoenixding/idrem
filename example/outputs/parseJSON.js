@@ -46,6 +46,9 @@ function onload(){
 	//regulatormethydropdown
 	createDropDown("All","#methydropdownRegulatorNodediv","regulatormethynodedropdown",nodes.map(function(d){return d.nodeID;}));
 	
+	//show page after loading
+	showPage();
+	
 	// cell types dropdown
 	[singleCells,sortedCells]=data_cells;
 	
@@ -70,7 +73,15 @@ function onload(){
 		
 	//compare 
 	compareNodes=cdata;
+	
+
 };
+
+//showpage after loading
+var showPage=function(){
+	document.getElementById("loadercontainer").style.display="none";
+	document.getElementById("myviz").style.display="block";
+}
 
 /* pre-process the data*/
 
@@ -377,10 +388,20 @@ var zoom=function(newValue){
 		.attr("preserveAspectRatio", "none");
 };
 
+//set go sliders
 var setgoslider=function(newValue){
 	document.getElementById("goslider").innerHTML=newValue;
-
 }
+
+var setsankeytfslider=function(newValue){
+	document.getElementById("sankeytfslider").innerHTML=newValue;
+}
+
+var setsankeymirslider=function(newValue){
+	document.getElementById("sankeymirslider").innerHTML=newValue;
+}
+
+////////////////////////
 //set bgcolor
 var setbgcolor=function(){
 		var color=document.getElementById("bgcolor").value;
@@ -414,8 +435,19 @@ var resetconfig=function(){
 		zoom(50);
 		tfcutChange(50);
 		popupchange(20);
+		setgoslider(5);
+		setsankeytfslider(10);
+		setsankeymirslider(5);
+		
+		//reset sliders
 		document.getElementById("popupcutslider").value=20;
 		document.getElementById('zoomsliderbar').value=50;
+		document.getElementById("tfcutSelectorbar").value=50;
+		document.getElementById("gosliderbar").value=5;
+		document.getElementById("sankeytfsliderbar").value=10;
+		document.getElementById("sankeymirsliderbar").value=5;
+		
+		
 		document.getElementById("bgcolor").value="#333333";
 		document.getElementById("nodecolor").value="#ffffff";
 		document.getElementById("textcolor").value="#ffffff";
@@ -473,6 +505,7 @@ var inNode=function(){
 	}
 	
 	for (var i=0;i<showcut;i++){
+		cetf[i][0]=cetf[i][0].split(" ")[0];
 		cetf.push(etf[i]);
 	}
 	
@@ -1073,6 +1106,7 @@ var showmouseover=function(node){
 	}
 	
 	for (var i=0;i<showcut;i++){
+		etf[i][0]=etf[i][0].split(" ")[0];
 		cetf.push(etf[i]);
 	}
 	
@@ -1323,16 +1357,28 @@ var explorepath=function(){
 }
 * */
 
+//explore path sankey diagram
+var exploreopathfunction=function(){
+	var checkstyle=d3.select('input[name="checkstyle"]:checked').property("value");
+	if (checkstyle=="1"){
+		exploreopathfunction1();
+	}else{
+		exploreopathfunction2();
+	}
+}
+
 
 //explore path sankey diagram
-
-var exploreopathfunction=function(){
+//sankey figure style 1
+var exploreopathfunction1=function(){
 	var tfcut=document.getElementById("tfcutSelector").innerHTML;
 	tfcut=parseInt(tfcut);
 	
 	var gocut=document.getElementById("goslider").innerHTML;
 	var gocut=parseInt(gocut);
 	
+	var tfnodecut=10;
+	var mirnodecut=5;
 	
 	var PathLabel=nodes[0].path.split(",");
 	PathLabel.sort();
@@ -1367,64 +1413,100 @@ var exploreopathfunction=function(){
 			}
 		}
 	}
-	/*
-	goTermList.sort(function(a,b){
-		var aa=a[1].toUpperCase();
-		var bb=b[1].toUpperCase();
-		if (aa==bb){
-			return 0;
-		}else{
-			return (aa<bb) ? -1: 1;
-		}
-	});
-	**/
-	goTermList=goTermList.map(function(d){return d[1];});
 	
+	//adding go terms nodes
+	goTermList=goTermList.map(function(d){return d[1];});
 	//goTermList.sort();
 	for (var goTerm of goTermList){
 		var gonode={"name":goTerm};
 		sankeyNodes.push(gonode);
 	}
 	
-	//TF Paths, miR Paths
-	var AllpathTFs=[];
-	var AllpathMIRs=[];
+	// output: a dictionary of top TF/miRNAs for each path
+	var AllPathTFList=[];
+	var AllPathMIRList=[];
+	var AllPathTFListD=[];
+	var AllPathMIRListD=[];
 	for (var path of allpath){
-		var pathTFs=[];
-		var pathMIRs=[];
+		var dpathtf={};
+		var pathTFList=[];
+		var dpathmir={};
+		var pathMIRList=[];
+		
 		for (var node of path){
-			if (node.ETF!=undefined){
+			var nodepath=node.path;
+			if (nodepath.length==1 && node.ETF!=undefined){
 				for (var tf of node.ETF.slice(0,tfcut)){
 					var tfname=tf[0].split(" ")[0];
-					if (pathTFs.indexOf(tfname)==-1){
-						var tfname=tfname.toUpperCase();
-						if (tfname.indexOf("MIR-")==-1 && tfname.indexOf("LET-")==-1){
-							pathTFs.push(tfname);
+					if (tf.length<7){
+						var pv=parseFloat(tf[5]);
+					}else{
+						var pv=parseFloat(tf[6]);
+					}
+					if (tfname.toUpperCase().indexOf("MIR-")==-1  && tfname.toUpperCase().indexOf("LET-")==-1){
+						if (!(tfname in dpathtf)){
+							dpathtf[tfname]=pv;
 						}else{
-							pathMIRs.push(tfname);
+							dpathtf[tfname]=Math.max(pv,dpathtf[tfname]);
+						}
+					}else{
+						if (!(tfname in dpathmir)){
+							dpathmir[tfname]=pv;
+						}else{
+							dpathmir[tfname]=Math.max(pv,dpathmir[tfname]);
 						}
 					}
+					
 				}
-			}
+				
+			}	
 		}
-		AllpathTFs.push(pathTFs);
-		AllpathMIRs.push(pathMIRs);
+		//
+		for (var tf in dpathtf){
+			pathTFList.push([tf,dpathtf[tf]]);
+		}
+		for (var mir in dpathmir){
+			pathMIRList.push([mir,dpathmir[mir]]);
+		}
+		
+		pathTFList.sort(function(a,b){return a[1]-b[1];});
+		pathMIRList.sort(function(a,b){return a[1]-b[1];});
+		
+		pathTFList=pathTFList.slice(0,tfnodecut);
+		pathMIRList=pathMIRList.slice(0,mirnodecut);
+		
+		AllPathTFListD.push(pathTFList);
+		AllPathMIRListD.push(pathMIRList);
+		//
+		pathTFList=pathTFList.map(function(d){return d[0];});
+		pathMIRList=pathMIRList.map(function(d){return d[0];});
+		AllPathTFList.push(pathTFList);
+		AllPathMIRList.push(pathMIRList);
+		
+		
 	}
 	
-	// adding TF node 
-	var tfnode={"name":"TF"};
-	sankeyNodes.push(tfnode);
+	var gonumber=sankeyNodes.length;
+	//adding TF nodes 
+	for (var i=0;i<leafs.length;i++){
+		var TFList=AllPathTFList[i];
+		var tfnode={"name": TFList};
+		sankeyNodes.push(tfnode);
+	}
 	
-	//adding miRNA node
-	var mirnode={"name":"miRNA"};
-	sankeyNodes.push(mirnode);
+	var mirnodenumber=sankeyNodes.length;
+	//adding mir nodes
+	for (var i=0;i<leafs.length;i++){
+		var MIRList=AllPathMIRList[i];
+		var mirnode={"name": MIRList};
+		sankeyNodes.push(mirnode);
+	}
 	
-	
-	//adding go links
+	//adding sankey links
 	var sankeyNodeNames=sankeyNodes.map(function(d){return d.name;});
-	
 	var sankeyPathDetails=[];
 	
+	// adding go links
 	for (var i=0;i<leafs.length;i++){
 		var igo=leafs[i].goNode.slice(0,gocut);
 		var source=sankeyNodeNames.indexOf(leafs[i].path);
@@ -1432,39 +1514,100 @@ var exploreopathfunction=function(){
 			var target=sankeyNodeNames.indexOf(igo[j][1]);
 			var value=1.0/(j+1);
 			sankeyPaths.push({"source":source,"target":target,"value":value});
-			sankeyPathDetails.push(igo[j]);
+			sankeyPathDetails.push([igo[j]]);
 		}
 	}
-	// adding tf links
+	
+	//adding tf links
 	for (var i=0;i<leafs.length;i++){
-		var target=sankeyNodeNames.indexOf(leafs[i].path);
-		sankeyPaths.push({source:sankeyNodeNames.indexOf("TF"),"target":target,value:1});
-		sankeyPathDetails.push(AllpathTFs[i]);
-		sankeyPaths.push({source:sankeyNodeNames.indexOf("miRNA"),"target":target,value:1});
-		sankeyPathDetails.push(AllpathMIRs[i]);
+		var pathLabel=leafs[i].path;
+		var pathTFList=AllPathTFList[i];
+		var ipathtfs=AllPathTFListD[i];
+	
+		var source=sankeyNodeNames.indexOf(pathTFList);
+		var target=sankeyNodeNames.indexOf(pathLabel);
+		if (pathTFList.length>0){
+			sankeyPaths.push({"source":source, "target":target, "value":1});
+			sankeyPathDetails.push(ipathtfs);
+		}
+	}
+	
+	// adding mir links
+	for (var i=0;i<leafs.length;i++){
+		var pathLabel=leafs[i].path;
+		var pathMIRList=AllPathMIRList[i];
+		var ipathmirs=AllPathMIRListD[i];
+		var source=sankeyNodeNames.indexOf(pathMIRList);
+		var target=sankeyNodeNames.indexOf(pathLabel);
+		if (pathMIRList.length>0){
+			sankeyPaths.push({"source":source, "target":target, "value":1});
+			sankeyPathDetails.push(ipathmirs);
+		}
 	}
 	
 	//
+	//
+	var sankeyW=1000
+	var sankeyH=Math.max(gocut,tfnodecut,mirnodecut)*200
+		
 	var sankeyData={"nodes":sankeyNodes,"links":sankeyPaths};
-	var newW2 = open('','_blank','height=1200,width=1000,left=1000,top=200,scrollbars=yes');
+	var newW2 = open('','_blank','height=1400,width=1800,left=200,top=200,scrollbars=yes');
 	newW2.document.write("<head><link rel='stylesheet' type='text/css' href='style.css'></head><body></body>");
 	var sankeyplotdiv=d3.select(newW2.document.body).append("div");
+	var pcolor=d3.scale.category20();
 	var sankeychart=sankeyplotdiv.append("svg")
 		.attr("id","sankeychart")
-		.attr("width",800)
-		.attr("height",1200)
+		.attr("width",sankeyW)
+		.attr("height",sankeyH)
 		.chart("Sankey"),
 		color=d3.scale.category20();
+	
 				
 	sankeychart
 		.nodeWidth(10)
-		.nodePadding(5)
-		.alignLabel('start')
+		.nodePadding(10)
+		.alignLabel(function(n){
+			if (sankeyNodeNames.indexOf(n.name)<gonumber){
+				return 'start';
+			}else{
+				return 'end';
+			}
+		})
+		.colorNodes(function(name,node){
+			var cindex=sankeyNodeNames.indexOf(name)
+			if (cindex<gonumber){
+				return pcolor(cindex);
+			}else if (cindex<mirnodenumber){
+				return pcolor(cindex-gonumber);
+			}else{
+				return pcolor(cindex-mirnodenumber);
+			}
+		})
 		.iterations(0)
+		.spread(true)
 		.draw(sankeyData);
+	
+	// move the plot to the right (leave space for TF/miRNAs)
+	var rightmove=600	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll("rect")
+		.attr("transform","translate("+rightmove+")");
+	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll("text")
+		.attr("transform","translate("+rightmove+")");
+	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll(".link")
+		.attr("transform","translate("+rightmove+")");
+	
+	//extend the sankey svg canvas
+	d3.select(newW2.document.body).select("#sankeychart")
+	.style("width", sankeyW+1000)
+	.style("height",sankeyH+200);
 		
 	
-	
+	//
 	var rects=d3.select(newW2.document.body).select("#sankeychart")
 		.selectAll("rect")[0];
 	
@@ -1478,6 +1621,368 @@ var exploreopathfunction=function(){
 				li.style.strokeOpacity="0.5";
 			}
 		}
+	});
+	
+	sankeychart.on('node:click',function(node){
+		//var nodeFunctions=[["GO Term ID","GO Term Name", "p-value"]];
+		var nodeFunctions=[];
+		for (var path_data of node.sourceLinks){
+			var path_index=sankeyPaths.indexOf(path_data);
+			var path_detail=sankeyPathDetails[path_index];
+			nodeFunctions.push(path_detail);
+		}
+		var newW3 = open('','_blank','height=600,width=800,left=200,top=200,scrollbars=yes');
+			newW3.document.write("<head><link rel='stylesheet' type='text/css' href='style.css'></head><body></body>");
+			var genediv=d3.select(newW3.document.body)
+			.style("background","white")
+			.append("div")
+			.style("padding-left","50px")
+			.style("padding-top","50px")
+			.attr("width",400)
+			.attr("height",600);
+		createTable(genediv,"sankeyNodetable",nodeFunctions,null);
+	});
+	
+	sankeychart.on('node:mouseout',function(node){
+		for (var li of links){
+			if (li.__data__.source==node){
+				li.style.strokeOpacity="0.2";
+			}
+		}
+	});
+			
+	//	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll(".link")
+		.on("mouseover",function(d,i){
+			this.style.strokeOpacity="0.5";
+			for (var ri of rects){
+				if (ri.__data__==d.target){
+					ri.style.fillOpacity="0";
+				}
+				if (ri.__data__==d.source){
+					ri.style.fillOpacity="0";
+				}
+			}
+			
+		})
+		.on("mouseout",function(d,i){
+			this.style.strokeOpacity="0.2";
+			for (var ri of rects){
+				if (ri.__data__==d.target){
+					ri.style.fillOpacity="0.9";
+				}
+				if (ri.__data__==d.source){
+					ri.style.fillOpacity="0.9";
+				}
+			}
+			
+		})
+		.on("click",function(d,i){
+			var path_data=d;
+			var path_index=sankeyPaths.indexOf(path_data);
+			var path_detail=sankeyPathDetails[path_index];
+			var newW3 = open('','_blank','height=600,width=800,left=200,top=200,scrollbars=yes');
+			newW3.document.write("<head><link rel='stylesheet' type='text/css' href='style.css'></head><body></body>");
+			var genediv=d3.select(newW3.document.body)
+			.style("background","white")
+			.append("div")
+			.style("padding-left","50px")
+			.style("padding-top","50px")
+			.attr("width",400)
+			.attr("height",600);
+			var path_detailList=[];
+			for (var item of path_detail){
+				path_detailList.push(item);
+			}
+			createTable(genediv,"sankeytable",path_detailList,exploretf);	
+			})
+			
+		.append("svg:title")
+          .text(function(d, i) { 
+				var path_data=d;
+				var path_index=sankeyPaths.indexOf(path_data);
+				var path_detail=sankeyPathDetails[path_index];
+				return path_detail;
+			   });
+	
+}
+
+//explore path function (sankey figure style 2)
+var exploreopathfunction2=function(){
+	var tfcut=document.getElementById("tfcutSelector").innerHTML;
+	tfcut=parseInt(tfcut);
+	
+	var gocut=document.getElementById("goslider").innerHTML;
+	var gocut=parseInt(gocut);
+	
+	var tfnodecut=20;
+	var mirnodecut=10;
+	
+	var PathLabel=nodes[0].path.split(",");
+	PathLabel.sort();
+	var allpath=[];
+	for (var path of PathLabel){
+		var PathList=[];
+		for (var node of nodes){
+			if (node.path.indexOf(path)!=-1){
+				PathList.push(node)
+			}
+		}
+		allpath.push(PathList);
+	}
+	var leafs=allpath.map(function(d){return d[d.length-1];});
+	var sankeyNodes=[]; //nodes
+	var sankeyPaths=[]; //links
+	// adding path
+	for (var path of PathLabel){
+		var inode={"name":path};
+		sankeyNodes.push(inode);
+	}
+	
+	// adding go terms
+	var goTermList=[];
+	var usedTerms=[];
+	for (var leaf of leafs){
+		var golist=leaf.goNode.slice(0,gocut);
+		for (var goitem of golist){
+			if (usedTerms.indexOf(goitem[1])==-1){
+					goTermList.push(goitem);
+					usedTerms.push(goitem[1]);
+			}
+		}
+	}
+		
+	//adding go terms nodes
+	goTermList=goTermList.map(function(d){return d[1];});
+	//goTermList.sort();
+	for (var goTerm of goTermList){
+		var gonode={"name":goTerm};
+		sankeyNodes.push(gonode);
+	}
+	var gonumber=sankeyNodes.length;
+	
+	// output: a dictionary of top TF/miRNAs for each path
+	var AllPathTFList=[];
+	var AllPathMIRList=[];
+	var AllPathTFListD=[];
+	var AllPathMIRListD=[];
+	
+	for (var path of allpath){
+		var dpathtf={};
+		var pathTFList=[];
+		var dpathmir={};
+		var pathMIRList=[];
+		
+		for (var node of path){
+			var nodepath=node.path;
+			if (nodepath.length==1 && node.ETF!=undefined){
+				for (var tf of node.ETF.slice(0,tfcut)){
+					var tfname=tf[0].split(" ")[0];
+					if (tf.length<7){
+						var pv=parseFloat(tf[5]);
+					}else{
+						var pv=parseFloat(tf[6]);
+					}
+					if (tfname.toUpperCase().indexOf("MIR-")==-1  && tfname.toUpperCase().indexOf("LET-")==-1){
+						if (!(tfname in dpathtf)){
+							dpathtf[tfname]=pv;
+						}else{
+							dpathtf[tfname]=Math.max(pv,dpathtf[tfname]);
+						}
+					}else{
+						if (!(tfname in dpathmir)){
+							dpathmir[tfname]=pv;
+						}else{
+							dpathmir[tfname]=Math.max(pv,dpathmir[tfname]);
+						}
+					}
+					
+				}
+				
+			}	
+		}
+		//
+		for (var tf in dpathtf){
+			pathTFList.push([tf,dpathtf[tf]]);
+		}
+		for (var mir in dpathmir){
+			pathMIRList.push([mir,dpathmir[mir]]);
+		}
+		
+		pathTFList.sort(function(a,b){return a[1]-b[1];});
+		pathMIRList.sort(function(a,b){return a[1]-b[1];});
+		
+		AllPathTFListD.push(pathTFList);
+		AllPathMIRListD.push(pathMIRList);
+		
+		pathTFList=pathTFList.map(function(d){return d[0];});
+		pathMIRList=pathMIRList.map(function(d){return d[0];});
+		
+		AllPathTFList.push(pathTFList);
+		AllPathMIRList.push(pathMIRList);
+	}
+	
+	// adding TF nodes
+	
+
+	usedTFs=[];
+	for (var tTFList of AllPathTFList){
+		for (var tf of tTFList.slice(0,tfnodecut)){
+			var tfindex=usedTFs.indexOf(tf);
+			if (tfindex==-1){
+				var tfnode={"name":tf};
+				sankeyNodes.push(tfnode);
+				usedTFs.push(tf);
+			}
+		}
+	}
+	
+	// adding miRNA nodes
+	usedMIRs=[];
+	
+	for (var tMIRList of AllPathMIRList){
+		for (var mir of tMIRList.slice(0,tfnodecut)){
+			if (usedMIRs.indexOf(mir)==-1){
+				var mirnode={"name":mir};
+				sankeyNodes.push(mirnode);
+				usedMIRs.push(mir);
+			}
+		}
+	}
+	
+	//adding sankey links
+	var sankeyNodeNames=sankeyNodes.map(function(d){return d.name;});
+	var sankeyPathDetails=[];
+	
+	// adding go links
+	for (var i=0;i<leafs.length;i++){
+		var igo=leafs[i].goNode.slice(0,gocut);
+		var source=sankeyNodeNames.indexOf(leafs[i].path);
+		for (var j=0;j<igo.length;j++){
+			var target=sankeyNodeNames.indexOf(igo[j][1]);
+			var value=1.0/(j+1);
+			sankeyPaths.push({"source":source,"target":target,"value":value});
+			sankeyPathDetails.push(igo[j]);
+		}
+	}
+	
+	// adding tf links
+	for (var i=0;i<leafs.length;i++){
+		var pathLabel=leafs[i].path;
+		for (var tf of usedTFs){
+			var source=sankeyNodeNames.indexOf(tf);
+			var tPathList=AllPathTFList[i];
+			var tpathListD=AllPathTFListD[i];
+			var tpathIndex=tPathList.indexOf(tf);
+			if (tpathIndex!=-1){
+				var target=sankeyNodeNames.indexOf(pathLabel);
+				var tfd=tpathListD[tpathIndex];
+				sankeyPaths.push({"source":source, "target":target, "value":1});
+				sankeyPathDetails.push(tfd);
+			}	
+		}
+	}
+	
+	// adding mir links
+	for (var i=0;i<leafs.length;i++){
+		var pathLabel=leafs[i].path;
+		for (var mir of usedMIRs){
+			var source=sankeyNodeNames.indexOf(mir);
+			var tPathList=AllPathMIRList[i];
+			var tpathListD=AllPathMIRListD[i];
+			var tpathListIndex=tPathList.indexOf(mir);
+			if (tpathListIndex!=-1){
+				var target=sankeyNodeNames.indexOf(pathLabel);
+				var mird=tpathListD[tpathListIndex];
+				sankeyPaths.push({"source":source, "target":target, "value":1});
+				sankeyPathDetails.push(mird);
+			}	
+		}
+	}
+	
+	//
+	var sankeyW=1000
+	var sankeyH=Math.max(gocut,tfnodecut,mirnodecut)*200
+	
+	var sankeyData={"nodes":sankeyNodes,"links":sankeyPaths};
+	var newW2 = open('','_blank','height=1400,width=1200,left=1000,top=200,scrollbars=yes');
+	newW2.document.write("<head><link rel='stylesheet' type='text/css' href='style.css'></head><body></body>");
+	var sankeyplotdiv=d3.select(newW2.document.body).append("div");
+	var sankeychart=sankeyplotdiv.append("svg")
+		.attr("id","sankeychart")
+		.attr("width",sankeyW)
+		.attr("height",sankeyH)
+		.chart("Sankey"),
+		color=d3.scale.category20();
+				
+	sankeychart
+		.nodeWidth(10)
+		.nodePadding(10)
+		.spread(true)
+		.alignLabel(function(n){
+			if (sankeyNodeNames.indexOf(n.name)<gonumber){
+				return 'start';
+			}else{
+				return 'end';
+			}
+		})
+		.iterations(0)
+		.draw(sankeyData);
+		
+	
+	
+	// move the plot to the right (leave space for TF/miRNAs
+	var rightmove=200	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll("rect")
+		.attr("transform","translate("+rightmove+")");
+	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll("text")
+		.attr("transform","translate("+rightmove+")");
+	
+	d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll(".link")
+		.attr("transform","translate("+rightmove+")");
+	
+	var rects=d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll("rect")[0];
+	
+	var links=d3.select(newW2.document.body).select("#sankeychart")
+		.selectAll(".link")[0];
+		
+	//
+	d3.select(newW2.document.body).select("#sankeychart")
+	.style("width", sankeyW+1000)
+	.style("height",sankeyH+200);
+	
+
+	sankeychart.on('node:mouseover',function(node){
+		for (var li of links){
+			if (li.__data__.source==node){
+				li.style.strokeOpacity="0.5";
+			}
+		}
+	});
+	
+	sankeychart.on('node:click',function(node){
+		var nodeFunctions=[["GO Term ID","GO Term Name", "p-value"]];
+		for (var path_data of node.sourceLinks){
+			var path_index=sankeyPaths.indexOf(path_data);
+			var path_detail=sankeyPathDetails[path_index];
+			nodeFunctions.push(path_detail);
+		}
+		var newW3 = open('','_blank','height=600,width=800,left=200,top=200,scrollbars=yes');
+			newW3.document.write("<head><link rel='stylesheet' type='text/css' href='style.css'></head><body></body>");
+			var genediv=d3.select(newW3.document.body)
+			.style("background","white")
+			.append("div")
+			.style("padding-left","50px")
+			.style("padding-top","50px")
+			.attr("width",400)
+			.attr("height",600);
+		createTable(genediv,"sankeyNodetable",nodeFunctions,null);
 	});
 	
 	sankeychart.on('node:mouseout',function(node){

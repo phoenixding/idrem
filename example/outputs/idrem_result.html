@@ -9,16 +9,25 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script src="d3/d3.min.js"></script>
+		
+		
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		
+		<script src="d3.chart.sankey/sankey.js"></script>
+		<script src="d3.chart.sankey/d3.chart.min.js"></script>
+		<script src="d3.chart.sankey/d3.chart.sankey.min.js"></script>
+		
+		<!--
 		<script src="http://cdn.rawgit.com/newrelic-forks/d3-plugins-sankey/master/sankey.js"></script>
 		<script src="http://cdn.rawgit.com/misoproject/d3.chart/master/d3.chart.min.js"></script>
 		<script src="http://cdn.rawgit.com/q-m/d3.chart.sankey/master/d3.chart.sankey.min.js"></script>
+		-->
 		
 		<script src="parseJSON.js"></script>
-		<script type="text/javascript" src="DREM.json"></script>
-		<script type="text/javascript" src="compare.json"></script>
-		<script type="text/javascript" src="cells.json"></script>
+		<script type="text/javascript" src="DREM.json" async></script>
+		<script type="text/javascript" src="compare.json" async></script>
+		<script type="text/javascript" src="cells.json" async></script>
 		<script>
 		var fold=function(divid){
 			var x=document.getElementById(divid);
@@ -29,12 +38,24 @@
 			}
 
 		}
+
 		</script>
 		
 	  </head>
 	  
 	  <body onload="onload()">
-		
+		 
+		  <div id="loadercontainer">
+			
+			<div id="loader">
+			</div>
+			
+			<div id="load-text">
+			Loading... (might take up to a few minutes for the first load)
+			</div>
+			</div>
+		  		
+		  <div id="myviz" style="display:none;" class="animate-bottom">	
 		  <!-- This DIV contains static visualization configuration config-->
 		  <table>
 		  <tr>
@@ -142,7 +163,7 @@
 					  </ul>
 					</div>
 					
-					<div class="menu-item"><h4><a onclick="fold('methyconfig')">Methylation Panel</a></h4></div>  
+					<div class="menu-item"><h4><a onclick="fold('methyconfig')">Epigenomics Panel</a></h4></div>  
 					<div class="menu-item" id="methyconfig" style="display:none;">
 						
 						<ul>
@@ -183,7 +204,7 @@
 						</ul>
 					</div>
 					
-					<div class="menu-item"><h4><a onclick="fold('proteconfig')">Proteomics panel</a></h4></div>  
+					<div class="menu-item"><h4><a onclick="fold('proteconfig')">Proteomics Panel</a></h4></div>  
 					<div class="menu-item" id="proteconfig" style="display:none;">
 						<ul>
 							<li>
@@ -212,21 +233,30 @@
 						</ul>
 					</div>
 					
+					
 					<div class="menu-item"><h4><a onclick="fold('pathfunction')">Path Function Panel</a></h4></div>  
 					<div class="menu-item" id="pathfunction" style="display:none;">
-					  
 					  <ul>
 						<li>
-							<input title="show path functions" type="submit" value="show path function Sankey diagram" onclick="exploreopathfunction()"><br>
+							<input title="show path functions" type="submit" value="show path function Sankey diagram" onclick="exploreopathfunction()"> <br>
+							<input title="Sankey Diagram style" type="radio" name="checkstyle" value="1" checked> Style 1 
+							<input title="Sankey Diagram style" type="radio" name="checkstyle" value="2"> Style 2 <br>
 							<span title="Ranking cutoff for GO terms ">GO term rank cutoff:</span><br>
-
 							<input type="range" id="gosliderbar" value="5" min="2" max="10" onchange="setgoslider(this.value)"></input>
-							  <span id="goslider">5</span>
+							<span id="goslider">5</span> <br>
+							
+							<span title="Ranking cutoff for TFs in Sankey diagram">Sankey TF rank cutoff:</span> <br>
+							<input type="range" id="sankeytfsliderbar" value="10" min=5 max="20" onchange="setsankeytfslider(this.value)"></input>
+							<span id="sankeytfslider">10</span> <br>
+							
+							<span title="Ranking cutoff for regulators in Sankey diagram">Sankey miRNA rank cutoff:</span> <br>
+							<input type="range" id="sankeymirsliderbar" value="5" min=2 max="20" onchange="setsankeymirslider(this.value)"></input>
+							<span id="sankeymirslider">5</span>
+							
 							</li>
-						
-						<li>
 					  </ul>
 					</div>
+					
 					
 					<div class="menu-item"><h4><a onclick="fold('omnibus')">Omnibus Panel</a></h4></div>  
 					<div class="menu-item" id="omnibus" style="display:none;">
@@ -237,7 +267,6 @@
 							<input type="text" id="omnibus-gene" value="" onkeydown="if (event.keyCode == 13) { exploreomnibus() }">
 							</li>
 						
-						<li>
 					  </ul>
 					</div>
 					
@@ -249,6 +278,9 @@
 						<li><a href="https://github.com/phoenixding/idrem/blob/master/readme.md#interactive-visualization" target="_blank">Manual</a></li>
 					  </ul>
 					</div>
+					
+					
+					
 				</nav>
 			  </div>
 		 </td>
@@ -258,6 +290,7 @@
 		  </td>
 		  </tr>
 		  </table>
+		  </div>
 			</body>
 	</html>
 	

@@ -55,6 +55,7 @@ Minimum_Standard_Deviation	0.0
 #Model Selection Options
 Model_Selection_Framework[Penalized Likelihood,Train-Test]	Penalized Likelihood
 Penalized_Likelihood_Node_Penalty	40
+Proteomics_Relative_Weight	1
 Random_Seed	1260
 Main_search_score_%	0
 Main_search_difference_threshold	0

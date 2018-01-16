@@ -3,6 +3,52 @@
 		width:1600px;
 	}
 	
+	#loadercontainer {
+	
+	  width: 100vw;
+	  height: 100vh;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+
+	  flex-direction: column;
+	  align-items: stretch;
+	  /*justify-content: center;
+	  align-content: center;*/
+	}
+
+	#loader {
+	  margin: auto;
+	  margin-top: 200px;
+	  border: 16px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 16px solid blue;
+	  border-bottom: 16px solid red;
+	  width: 120px;
+	  height: 120px;
+	  -webkit-animation: spin 2s linear infinite;
+	  animation: spin 2s linear infinite;
+	}
+
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+
+	
+
+	#load-text {
+	  padding-top: 15px;
+	  text-align: center;
+	  font: 14pt "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  color: lighten(#6767fa, 75%);
+	}
+		
 	
 	/*div svg */
 
@@ -33,7 +79,7 @@
 		font-size:12px;
 		background:silver;
 		overflow:scroll; 
-	}
+	}width
 
 	#div_config button{
 		height:15px;
@@ -124,11 +170,11 @@
 	}
 
 	.menu-item ul {
-		height: 93px;
-	  
+		height: 93px; 
 	}
+	
 	#globalconfig.menu-item ul{
-		height:343px;
+		height:363px;
 	}
 	
 	#tfconfig.menu-item ul{
@@ -152,6 +198,11 @@
 		height:153px;
 		
 	}
+	
+	#pathfunction.menu-item ul{
+		height:263px;
+	}
+	
 	#downloadconfig.menu-item ul{
 		
 	}
@@ -210,8 +261,12 @@
 	
 
 	#sankeychart {
-		width: 1000px;
-		height:1200px;
+		position: relative;
+		/*border:1px solid red; */
+		/* width: 1800px;
+		height:3000px;
+		left: 200px;
+		* */
 	}
 
 	#sankeychart .node rect {
@@ -220,6 +275,7 @@
 		border: 10px solid red;
 	}
 	#sankeychart .node text {
+		font-size:40x;
 		pointer-events: none;
 		text-shadow: 0 1px 0 #fff;
 	}
