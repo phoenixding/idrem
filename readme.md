@@ -30,14 +30,15 @@ To use iDREM, a version of Java 1.7 or later must be installed.  If Java 1.7 or 
 currently installed, please refer to [http://www.java.com](http://www.java.com) for installation instructions. 
 
 * JavaScript  
-To enable the interactive visualization powered by Javascript, please make sure that you have Internet connection. 
+To enable the interactive visualization powered by Javascript, please make sure that you have Internet connection.  
+(The users are still able to run the software off-line, but Internet access is needed to view the result interactively.) 
 
 # INSTALLATION
 
 To download iDREM, simply download and extract iDREM package.
-Use the iDREM jar package inside the unzipped directory.  
+Please use the iDREM jar package (idrem.jar) inside the unzipped directory together with the [depending libraries](lib/) and data files ([TF targets](TFInput) and [miRNA targets](miRNAInput)).  
 If users want to use the jar package outside the directory, please
-add the iDREM diretory to $PATH. 
+add the iDREM directory to $PATH. 
 Please refer [https://www.java.com/en/download/help/path.xml](https://www.java.com/en/download/help/path.xml) for instructions to set up system environment variable. 
 
 # USAGE
@@ -513,7 +514,8 @@ All inputs files mentioned in this section can be found under the "example/input
 	java -Xmx4g -jar idrem.jar -b example_settings.txt outmodelfile.xt
 	```
 	example_settings.txt specifies all the files and parameters required by iDREM.   
-	outmodelfile.txt is the saved model, which can be used to restore the running results later.  
+	outmodelfile.txt is the saved model, which can be used to restore the running results later. Besides, 
+	The output results will be given under the same directory of the input "Expression Data File". 
 	Please refer to the manual for more details. 
 	
 * __example analysis of the single cell data__  

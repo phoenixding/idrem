@@ -36,7 +36,7 @@ public class DREMGui extends PFrame implements ComponentListener {
 
 	boolean battachlabels = true;
 	static int SCREENWIDTH = 800;
-	static int SCREENHEIGHT = 600;
+	static int SCREENHEIGHT = 600; //FIXME: CHANGE THE SCREEN HEIGHT
 	static int LEFTBUFFER = 25;
 	static int RIGHTBUFFER = 75;
 	static double TOPBUFFER = 10;
@@ -289,7 +289,15 @@ public class DREMGui extends PFrame implements ComponentListener {
 					new Color((float) 205 / 255, (float) 92 / 255,
 							(float) 92 / 255, (float) 1) } };// ,indian red
 
-	/**
+	
+        /**
+         * Class constructor override
+         */
+        
+        public DREMGui(){
+            
+        }
+        /**
 	 * Class constructor
 	 */
 	public DREMGui(DREM_Timeiohmm theTimeiohmm,
@@ -297,7 +305,7 @@ public class DREMGui extends PFrame implements ComponentListener {
 			double dYaxisDEF, double dXaxisDEF, int nKeyInputTypeDEF,
 			double dKeyInputXDEF, double dpercentDEF, String szFinal,
 			double dnodekDEF) {
-		super("DREM - Main Interface " + szFinal);  
+		super("iDREM - Main Interface " + szFinal);  
 		this.treecopy = treecopy;
 		storedbestpath = new BigInteger[theTimeiohmm.storedbestpath.length];
 		bsavedchange = theTimeiohmm.bsavedchange;
@@ -399,8 +407,7 @@ public class DREMGui extends PFrame implements ComponentListener {
                 System.out.println("exporting json...");
                 exportJsonFile(theTimeiohmm,treecopy);
 	}
-        
-        
+              
         public void treeWalk(DREM_Timeiohmm.Treenode ptr, ArrayList<DREM_Timeiohmm.Treenode> TNs){
            DREM_Timeiohmm.Treenode[] TNList;
            //DREM_Timeiohmm.Treenode tn;

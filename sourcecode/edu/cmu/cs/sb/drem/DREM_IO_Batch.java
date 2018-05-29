@@ -251,7 +251,10 @@ public class DREM_IO_Batch {
 			szconvergenceval = "" + dCONVERGENCEDEF;
 			szminstddeval = "" + dMINSTDDEVALDEF;
 			// System.out.println("*"+szStaticFileDEF);
-
+                        
+                        //FIXME: HEADLESS MODE
+                         System.setProperty("java.awt.headless", "true");
+                        
 			// If a binding file is specified by SDREM, use that instead
 			// of what was read from the defaults file
 			if (sdremBindingFile != null) {
@@ -1381,13 +1384,18 @@ public class DREM_IO_Batch {
 			final DREM_Timeiohmm fthetimehmm = thetimehmm;
 
 			try {   
-                                //explort 
+                                
+                                
+                                //export 
+                                /*
                                 DREMGui theDREMGui = new DREMGui(fthetimehmm,
 								fthetimehmm.treeptr, brealXaxisDEF, dYaxisDEF,
 								dXaxisDEF, nKeyInputTypeDEF, dKeyInputXDEF,
 								dpercentDEF, "(Final Model)", dnodekDEF);
+                                */
+                                jsonExport jse=new jsonExport();
                                 
-                                theDREMGui.exportJsonFile(fthetimehmm,fthetimehmm.treeptr);
+                                jse.exportJsonFile(fthetimehmm,fthetimehmm.treeptr);
 				PrintWriter pw = new PrintWriter(new FileWriter(szoutmodelfile));
 				pw.print(fthetimehmm.saveString(fthetimehmm.treeptr));
 				pw.close();
@@ -1412,6 +1420,7 @@ public class DREM_IO_Batch {
 			System.out.println("Time: " + (e1 - s1) + "ms");
 		}
 	}
+        
         //
         public HashMap<String,ArrayList<String>> methy2Bind(DREM_DataSet theDataSet, String szExFile, DataSetCore miRNADataSet, 
                 String djMethyFile,String djMethyGTF){

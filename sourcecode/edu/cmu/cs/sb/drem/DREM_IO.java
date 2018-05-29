@@ -597,7 +597,7 @@ public class DREM_IO extends JFrame implements ActionListener, ChangeListener {
          * calls parseDefaults to get the initial settings from a default settings file if specified
 	 */
 	public DREM_IO() throws FileNotFoundException, IOException {
-		super("DREM - Dynamic Regulatory Events Miner");
+		super("iDREM -interactive Dynamic Regulatory Events Miner");
                 
                 File dir = new File(SZSTATICDIR);
                 {
