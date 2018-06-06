@@ -191,9 +191,35 @@ public class jsonExport{
             String mirAbListString=new Gson().toJson(mirAbList);
             String proteAbListString=new Gson().toJson(proteAbList);
             
+            ArrayList<String> JsonStringList =new ArrayList<String>();
+            JsonStringList.add(jsonString);
+            JsonStringList.add(silGeneScoreString);
+            JsonStringList.add(regTargetString);
+            JsonStringList.add(geneNameString);
+            JsonStringList.add(regNameString);
+            JsonStringList.add(geneExpressionString);
+            JsonStringList.add(mirExpressionString);
+            JsonStringList.add(mirExpressionIDString);
+            JsonStringList.add(geneAbListString);
+            JsonStringList.add(mirAbListString);
+            JsonStringList.add(proteAbListString);
+            
+            StringBuilder jsonsb=new StringBuilder();
+            jsonsb.append("[");
+            
+            for (String s: JsonStringList){
+                jsonsb.append(s);
+                jsonsb.append(",");
+            }
+            jsonsb.append("]");
+            
+            String combinedJson=jsonsb.toString();
+            
+            
+            /*
             String combinedJson='['+jsonString+','+silGeneScoreString+','+regTargetString+','+geneNameString+','+regNameString+
                     ','+geneExpressionString+','+mirExpressionString+','+mirExpressionIDString+','+geneAbListString+','+mirAbListString+','+proteAbListString+']';
-            
+            */
             System.out.println("writing Json..");
             try {
                 File srcFolder=new File("lib/viz/");

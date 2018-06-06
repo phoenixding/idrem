@@ -40,7 +40,7 @@ GTF File	example/inputs/example_GTF.txt
 Filter_Gene_If_It_Has_No_Static_Input_Data	false
 Maximum_Number_of_Missing_Values	0
 Minimum_Correlation_between_Repeats	0
-Minimum_Absolute_Log_Ratio_Expression	1
+Minimum_Absolute_Log_Ratio_Expression	2
 Change_should_be_based_on[Maximum-Minimum,Difference From 0]	Difference From 0
 Pre-filtered_Gene_File
 

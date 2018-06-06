@@ -743,8 +743,12 @@ public class DataSetCore {
 			} else {
 				for (int ncol = 1; ncol < numcols; ncol++) {
 					if (btakelog) {
-						data[nrow][ncol] = Math
+						/*
+                                                data[nrow][ncol] = Math
 							.log(data[nrow][ncol] / dnormval) / DLOG2;
+                                                 */
+                                                Double pseudocount=1.0;
+                                                data[nrow][ncol]=Math.log(data[nrow][ncol]+pseudocount)/DLOG2 - Math.log(dnormval+pseudocount)/DLOG2;
 					} else {
 						data[nrow][ncol] = data[nrow][ncol] - dnormval;
 					}

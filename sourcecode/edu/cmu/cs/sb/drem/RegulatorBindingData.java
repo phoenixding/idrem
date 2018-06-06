@@ -1869,9 +1869,9 @@ public class RegulatorBindingData {
             for (int time=0;time<regTR.length;time++){
                 for (int reg=0;reg<regTR[time].length;reg++){
                     int regType=regTypes[reg];
-                    if(regType==RegulatorBindingData.TF && regTR[time][reg]!=Double.NEGATIVE_INFINITY){
+                    if(regType==RegulatorBindingData.TF && regTR[time][reg]!=Double.NEGATIVE_INFINITY && regTR[time][reg]!=Double.POSITIVE_INFINITY && !Double.isNaN(regTR[time][reg])){
                         TFVal.add(regTR[time][reg]);
-                    }else if (regType==RegulatorBindingData.MIRNA && regTR[time][reg]!=Double.NEGATIVE_INFINITY){ 
+                    }else if (regType==RegulatorBindingData.MIRNA && regTR[time][reg]!=Double.NEGATIVE_INFINITY && regTR[time][reg]!=Double.POSITIVE_INFINITY && !Double.isNaN(regTR[time][reg])){ 
                         MirVal.add(regTR[time][reg]);
                     }
                 }
