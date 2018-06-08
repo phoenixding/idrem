@@ -45,9 +45,10 @@ Please refer [https://www.java.com/en/download/help/path.xml](https://www.java.c
 To execute iDREM from a command line, change to the iDREM directory and then type:
 
 ```shell
-java -Xmx4g -jar idrem.jar
+java -Xmx8g -jar idrem.jar
 ```
-The output results will be given under the same directory of the input "Expression Data File".   
+The output results will be given under the same directory of the input "Expression Data File".     
+For large datasets, it's recommended to use 8G RAM (-Xmx8g) while 4G RAM (-Xmx4g) should be enough for most cases.   
 
 iDREM input interface(required, users need to specify to run iDREM)  
 ![iDREMain](./images/inputdrem.png)
@@ -255,7 +256,7 @@ The options can be used to provide optional data sets or search setting for mode
 	loaded into iDREM for later viewing. To run iDREM in batch model, use the command:
 
 	```shell
-	java -Xmx4g -jar idrem.jar -b settingsfile.txt outmodelfile.xt
+	java -Xmx8g -jar idrem.jar -b settingsfile.txt outmodelfile.xt
 
 	```
 	All the files and parameters described above are specified by the settingsfile.txt in batch mode. Please 

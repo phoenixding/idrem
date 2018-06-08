@@ -728,17 +728,21 @@ public class DataSetCore {
 	 * true then this the log base 2 of a value over the time point 0 value. If
 	 * it is false then this is the difference with the time point 0 value.
 	 */
+        
 	public DataSetCore logratio2() {
 		double dnormval;
 		double DLOG2 = Math.log(2);
+                double pseudocount=1.0;
+                
 		for (int nrow = 0; nrow < numrows; nrow++) {
 			dnormval = data[nrow][0];
 			data[nrow][0] = 0;
 
 			if (pmavalues[nrow][0] == 0) {
 				for (int ncol = 1; ncol < numcols; ncol++) {
-					data[nrow][ncol] = Double.POSITIVE_INFINITY;
-					pmavalues[nrow][ncol] = 0;
+					//data[nrow][ncol] = Double.POSITIVE_INFINITY;
+					data[nrow][ncol]=Math.log(data[nrow][ncol]+pseudocount)/DLOG2 - Math.log(dnormval+pseudocount)/DLOG2;
+                                        pmavalues[nrow][ncol] = 0;
 				}
 			} else {
 				for (int ncol = 1; ncol < numcols; ncol++) {
@@ -747,7 +751,7 @@ public class DataSetCore {
                                                 data[nrow][ncol] = Math
 							.log(data[nrow][ncol] / dnormval) / DLOG2;
                                                  */
-                                                Double pseudocount=1.0;
+                                               
                                                 data[nrow][ncol]=Math.log(data[nrow][ncol]+pseudocount)/DLOG2 - Math.log(dnormval+pseudocount)/DLOG2;
 					} else {
 						data[nrow][ncol] = data[nrow][ncol] - dnormval;

@@ -166,7 +166,7 @@ public class jsonExport{
             String mirExpressionString,mirExpressionIDString;
             if (theTimeiohmm.miRNADataSet!=null){
                 mirAbList=getGeneAbVal(theTimeiohmm.miRNADataSet.szInputFile);
-                mirExpressionString=new Gson().toJson(theTimeiohmm.miRNADataSet.data);
+                mirExpressionString=Arrays.deepToString(theTimeiohmm.miRNADataSet.data);
                 mirExpressionIDString=new Gson().toJson(theTimeiohmm.miRNADataSet.genenames);
             }else{
                 mirAbList=null;
@@ -181,7 +181,8 @@ public class jsonExport{
             }
             
             
-            String geneExpressionString=new Gson().toJson(theTimeiohmm.theDataSet.data);
+            //String geneExpressionString=new Gson().toJson(theTimeiohmm.theDataSet.data);
+            String geneExpressionString=Arrays.deepToString(theTimeiohmm.theDataSet.data);
             String jsonString = new Gson().toJson(JsonNodeList);
             String silGeneScoreString=new Gson().toJson(theTimeiohmm.methyGeneScore);
             String regTargetString=new Gson().toJson(regTarget);

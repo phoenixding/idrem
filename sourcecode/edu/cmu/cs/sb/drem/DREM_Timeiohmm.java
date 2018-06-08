@@ -373,7 +373,9 @@ public class DREM_Timeiohmm {
 					}
 				}
 			}
-
+                        
+                        //FIXME : remove not expressed miRNAs
+                   
 			if(filterMIRNAExp)
 			{
 				boolean[] keep = new boolean[bindingData.numberRegs];
@@ -382,7 +384,7 @@ public class DREM_Timeiohmm {
 				{
 					if(bindingData.regTypes[i] == RegulatorBindingData.MIRNA)
 					{
-						if(reg2DataSetIndex.get(bindingData.regNames[i]) == null)
+						if(reg2DataSetIndex.get(bindingData.regNames[i].toUpperCase()) == null)
 						{
 							keep[i] = false;
 						}
@@ -1291,9 +1293,9 @@ public class DREM_Timeiohmm {
 						+ dprevouterbestlog + " " + EPSILONDIFF);
 			}
 
-		} while ((((dbestlog - EPSILON * Math.abs(dbestlog) - dprevouterbestlog) > EPSILONDIFF)
+		} while ( ((dbestlog - dprevouterbestlog)/ Math.abs(dbestlog)>BEPSILON) && ((((dbestlog - EPSILON * Math.abs(dbestlog) - dprevouterbestlog) > EPSILONDIFF)
 				&& (!bendsearchlocal) && !bmodeldiff)
-				|| (bmodeldiff && (dbestlog > dprevouterbestlog) && (!bendsearchlocal)));
+				|| (bmodeldiff && (dbestlog > dprevouterbestlog) && (!bendsearchlocal))));
 
 		if (statusLabel15 != null) {
 			statusLabel15.setText(" Final Main Score Improvement: " + szDIFF
@@ -4280,8 +4282,8 @@ public class DREM_Timeiohmm {
 
 			int numrowstable;
 			int nsize = bindingData.existingBindingValuesUnsorted.size() - 1;
-			numrowstable = bindingData.regNames.length * nsize;
-
+			//numrowstable = bindingData.regNames.length * nsize;
+                        numrowstable=bindingData.regNames.length;
 			boolean bsplit;
 			if (treeptr.numchildren >= 2) {
 				treeptr.dpvalEdgeSplit = new double[treeptr.numchildren][numrowstable];

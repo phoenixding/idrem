@@ -531,7 +531,7 @@ public class DREMGui extends PFrame implements ComponentListener {
                 ct+=1;
             }
             
-            
+            System.gc();
             int[][] regTarget=theTimeiohmm.bindingData.gene2RegBindingIndex[0];
             ArrayList<String[]> geneAbList=new ArrayList<String[]>();
             ArrayList<String[]> mirAbList=new ArrayList<String[]>();
@@ -541,7 +541,8 @@ public class DREMGui extends PFrame implements ComponentListener {
             String mirExpressionString,mirExpressionIDString;
             if (theTimeiohmm.miRNADataSet!=null){
                 mirAbList=getGeneAbVal(theTimeiohmm.miRNADataSet.szInputFile);
-                mirExpressionString=new Gson().toJson(theTimeiohmm.miRNADataSet.data);
+                //mirExpressionString=new Gson().toJson(theTimeiohmm.miRNADataSet.data);
+                mirExpressionString=Arrays.deepToString(theTimeiohmm.miRNADataSet.data);
                 mirExpressionIDString=new Gson().toJson(theTimeiohmm.miRNADataSet.genenames);
             }else{
                 mirAbList=null;
@@ -556,7 +557,8 @@ public class DREMGui extends PFrame implements ComponentListener {
             }
             
             
-            String geneExpressionString=new Gson().toJson(theTimeiohmm.theDataSet.data);
+            //String geneExpressionString=new Gson().toJson(theTimeiohmm.theDataSet.data);
+            String geneExpressionString=Arrays.deepToString(theTimeiohmm.theDataSet.data);
             String jsonString = new Gson().toJson(JsonNodeList);
             String silGeneScoreString=new Gson().toJson(theTimeiohmm.methyGeneScore);
             String regTargetString=new Gson().toJson(regTarget);
@@ -2058,6 +2060,7 @@ public class DREMGui extends PFrame implements ComponentListener {
 				theLayer.addChild(theSigInfoRec.border);
 
 				double dprewidth = theSigInfoRec.border.getWidth();
+                                System.out.println(nindex);
 				setSigText(theSigInfoRec.theSigTF,
 						(PPath) theSigInfoRec.border, theSigInfoRec.ntype,
 						theSigInfoRec.ndepth, displayTF, displayMIRNA,
@@ -2261,6 +2264,7 @@ public class DREMGui extends PFrame implements ComponentListener {
 
 			for (Object theTFRecObj : tsSigTF) {
 				DREM_Timeiohmm.SigTFRecv2 theTFRec = (DREM_Timeiohmm.SigTFRecv2) theTFRecObj;
+                                theTFRec.szname=theTFRec.szname.split(" ")[0]; // fix the space in the name
 				Integer regType = theTimeiohmm.bindingData.regTypeMap
 						.get(theTFRec.szname);
 				boolean significant = false;
@@ -2319,8 +2323,13 @@ public class DREMGui extends PFrame implements ComponentListener {
 				 */
 				switch (regType) {
 				case RegulatorBindingData.MIRNA:
-					lookup = theTimeiohmm.reg2DataSetIndex.get(theTFRec.szname
+					/*
+                                        lookup = theTimeiohmm.reg2DataSetIndex.get(theTFRec.szname
 							.toUpperCase());
+                                                       */
+                                        
+                                        lookup=Arrays.asList(theTimeiohmm.miRNADataSet.genenames).indexOf(theTFRec.szname.toUpperCase()); //fix the lookup error
+                                        
 					if (lookup != null) {
 						// increase ndepth by 1 because of the timepoint 0 that has no exp. values
 						double expression = theTimeiohmm.miRNADataSet.data[lookup][ndepth+1];
