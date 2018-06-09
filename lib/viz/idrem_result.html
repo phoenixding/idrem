@@ -87,10 +87,17 @@
 								<tr><td><input type="submit" onclick="setnodecolor()" value="Set Node color" title="change/set the node color of the figure"></td>
 								<td><input type="color" id="nodecolor" value="#ffffff" onchange="setnodecolor()"></td>
 								</tr>
+								<tr><td><input type="submit" onclick="resetnodesize()" value="Set Node size" title="change/set the node size of the figure"></td> 
+								<td><input type="text" value="10" id="nodesizetext"></td>
+								</tr>
 								<tr>
 								<td><input type="submit" onclick="settextcolor()" value="Set text color" title="change/set the text color of the figure"></td>
 								<td><input type="color" id="textcolor" value="#ffffff" onchange="settextcolor()"> </td>
 								</tr>
+								
+								<tr><td><input type="submit" onclick="resettextsize()" value="Set text size" title="change/set the text size of the figure"></td> 
+								<td><input type="text" value="10" id="textsize"></td>
+								
 								<tr>
 								<td><input type="submit" onclick="setpathcolor()" value="Set path color" title="change/set the text color of the figure"></td>
 								<td><input type="color" id="pathcolor" value="#aaaaaa" onchange="setpathcolor()"></td>
@@ -271,15 +278,24 @@
 					</div>
 					
 					
-					<div class="menu-item"><h4><a onclick="fold('downloadconfig')">Manual</a></h4></div>  
-					<div class="menu-item" id="downloadconfig" style="display:none;">
+					<div class="menu-item"><h4><a onclick="fold('manualconfig')">Manual</a></h4></div>  
+					<div class="menu-item" id="manualconfig" style="display:none;">
 					  
 					  <ul>
 						<li><a href="https://github.com/phoenixding/idrem/blob/master/readme.md#interactive-visualization" target="_blank">Manual</a></li>
 					  </ul>
 					</div>
 					
-					
+					<div class="menu-item"><h4><a onclick="fold('downloadconfig')">DOWNLOAD</a></h4></div>  
+						<div class="menu-item" id="downloadconfig" style="display:none">
+						  <ul>
+						
+							<li><label><input type="submit" onclick="downloadjson('jsondownloadlink')" value="Generate Json download file:"></label></li>
+							<li><a id="jsondownloadlink"></a></li>
+							
+					  </ul>
+					  </div>
+					</div>	
 					
 				</nav>
 			  </div>

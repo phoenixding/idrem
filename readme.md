@@ -471,10 +471,31 @@ For any given gene list, find the enriched nodes (Nodes whose associated genes a
 	* __Sankey miRNA rank cutoff__:  
 	This slider sets the miRNA rank cutoff in the Sankey diagram.  
 
-* __Omnibus Panel__
-
+* __Omnibus Panel__  
 Key in the Gene(Regulator) name to search all related  expression and methylation. 
 
+
+* __DOWNLOAD Panel__  
+Click the "Generate Json download file" button to download the json file, which describes the model.  
+With the downloaded json file, users can extract the following information:  
+1) genes associated with each node  
+2) TFs associated with each node  
+3) Mean expression and Standard deviation of the node   
+The format of the json file:  
+```  
+[
+{                //node 1
+	ETF: [[TF1 list],[TF2 list],...] // All TFs for the node, please use the rank or the p-value to select the "significant" ones. 
+	genes: [list of genes assigned to the node]
+	id: node_id,
+	nodetime: node_time,
+	nodeMean: Mean gene expression value of the node,
+	nodeSigma: the standard deviation of the gene expression value of the node. 
+},
+{                // node 2
+},...           
+]
+```
 
 # EXAMPLES
 All inputs files mentioned in this section can be found under the "example/inputs" directory.   
