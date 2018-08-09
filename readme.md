@@ -6,6 +6,9 @@
 ██║██████╔╝██║  ██║███████╗██║ ╚═╝ ██║
 ╚═╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝                                   
 ```
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 Note: For iDREM interactive visualization manual, please skip to [INTERACTIVE-VISUALIZATION](#interactive-visualization) section.
 
 # Introduction 
