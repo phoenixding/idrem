@@ -44,8 +44,20 @@ If users want to use the jar package outside the directory, please
 add the iDREM directory to $PATH. 
 Please refer [https://www.java.com/en/download/help/path.xml](https://www.java.com/en/download/help/path.xml) for instructions to set up system environment variable. 
 
+# TROUBLESHOOTING
+
+In case the html visualization does not show up, please check iDREM is run inside the project directory with all dependencies included. 
+
+In case any other unexpected issue happend on Windows or Max OS, please try the following steps to run iDREM:
+
+- download anaconda if have not
+- create a virtual environment using command "conda create -n yourenvname"
+- activate the virtual environment using command "conda activate yourenvname"
+- install java inside your virtual environment using "conda install -c conda-forge openjdk=11"
+- run iDREM using the command "java -Xmx8g -jar idrem.jar" 
+
 # USAGE
-To execute iDREM from a command line, change to the iDREM directory and then type:
+To execute iDREM from a command line, change to the iDREM directory and then type: (IMPORTANT: This needs to be done inside the directory including )
 
 ```shell
 java -Xmx8g -jar idrem.jar
